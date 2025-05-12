@@ -23,13 +23,26 @@ Route::get('/', [HomeController::class, 'index'], function () {
     return view('/home');
 });
 
+// Route::get('/dashboard', [DashboardController::class, 'index'])
+//     ->middleware(['auth', 'verified'])
+//     ->name('dashboard');
+
+// Route::get('/pengguna/dashboard', [DashboardController::class, 'index'])
+//     ->middleware('auth:pengguna')
+//     ->name('dashboard.pengguna');
+
+// Route::get('/dashboard', [DashboardController::class, 'index'])
+//     ->middleware(['auth', 'verified', 'prevent-back-history'])
+//     ->name('dashboard');
+
+// routes/web.php
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth:web,pengguna', 'verified', 'prevent-back-history'])
     ->name('dashboard');
 
-Route::get('/pengguna/dashboard', [DashboardController::class, 'index'])
-    ->middleware('auth:pengguna')
-    ->name('dashboard.pengguna');
+// Route::get('/dashboard', [DashboardController::class, 'index'])
+//     ->middleware('auth:pengguna', 'prevent-back-history')
+//     ->name('dashboard.pengguna');
 
 
 // Route::get('/dashboard', [DashboardController::class, 'index'], function () {
@@ -41,10 +54,14 @@ Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout')
     ->middleware('auth:web,pengguna'); // atau cukup 'auth'
 
-Route::get('/pengguna/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->name('logout')
-    ->middleware('auth:web,pengguna'); // atau cukup 'auth'
+// Route::get('/pengguna/logout', [AuthenticatedSessionController::class, 'destroy'])
+//     ->name('logout')
+//     ->middleware('auth:web,pengguna'); // atau cukup 'auth'
 
+
+// Route::get('/pengguna/profile', [DashboardController::class, 'index'])
+//     ->middleware('auth:pengguna', 'prevent-back-history')
+//     ->name('profile.pengguna');
 
 require __DIR__ . '/auth.php';
 
@@ -67,8 +84,8 @@ Route::resource('showhat', App\Http\Controllers\frontend\TampilsehatController::
 Route::resource('galery', App\Http\Controllers\frontend\GaleryController::class);
 Route::get('frontend/show/{id}', [BeritaController::class, 'show'])->name('frontend.show');
 
-Route::resource('input_berita', App\Http\Controllers\backend\InputBeritaController::class);
-Route::resource('input_pengumuman', App\Http\Controllers\backend\InputPengumumanController::class);
+
+Route::middleware(['auth:web,pengguna', 'prevent-back-history'])->group(function () {
 Route::resource('profile', App\Http\Controllers\backend\ProfileController::class);
 Route::resource('change_password', App\Http\Controllers\backend\ChangePasswordController::class);
 // Route::resource('jumlah_berita', App\Http\Controllers\backend\JumlahBeritaController::class);
@@ -161,6 +178,13 @@ Route::resource('galerilaporanpokja1', App\Http\Controllers\backend\GaleriLapora
 Route::resource('galerilaporanpokja3', App\Http\Controllers\backend\GaleriLaporanPokja3Controller::class);
 Route::resource('galerilaporanpokja4', App\Http\Controllers\backend\GaleriLaporanPokja4Controller::class);
 
-Route::resource('ttd', App\Http\Controllers\backend\TtdController::class);
-Route::resource('ttdketua', App\Http\Controllers\backend\TtdKetuaController::class);
-Route::resource('ttdwakilketua', App\Http\Controllers\backend\TtdWakilKetuaController::class);
+Route::middleware(['admin'])->group(function () {
+    Route::resource('ttd', App\Http\Controllers\backend\TtdController::class);
+    Route::resource('ttdketua', App\Http\Controllers\backend\TtdKetuaController::class);
+    Route::resource('ttdwakilketua', App\Http\Controllers\backend\TtdWakilKetuaController::class);
+
+    Route::resource('input_berita', App\Http\Controllers\backend\InputBeritaController::class);
+    Route::resource('input_pengumuman', App\Http\Controllers\backend\InputPengumumanController::class);
+});
+
+});

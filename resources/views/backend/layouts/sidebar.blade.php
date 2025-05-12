@@ -17,13 +17,13 @@
       </a>
     </li>
   @elseif ($isPengguna)
-  <li class="nav-item">
-    <a class="nav-link" href="{{ route('dashboard.pengguna') }}">
-    <i class="bi bi-grid"></i>
-    <span>Dashboard</span>
-    </a>
-  </li>
-@endif
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('dashboard') }}">
+      <i class="bi bi-grid"></i>
+      <span>Dashboard</span>
+      </a>
+    </li>
+  @endif
 
     {{-- Admin Only --}}
     @if ($isAdmin)

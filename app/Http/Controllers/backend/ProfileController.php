@@ -4,38 +4,68 @@ namespace App\Http\Controllers\backend;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Pengguna;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    public function index(){
-        $user = Auth::user();
-        return view('backend.profile', compact('user'));
+    public function index()
+    {
+        // Ambil user berdasarkan guard yang sedang login
+        $user = Auth::guard('pengguna')->check()
+            ? Auth::guard('pengguna')->user()
+            : Auth::user();
+
+        // Tentukan tipe user untuk view
+        $userType = Auth::guard('pengguna')->check() ? 'pengguna' : 'user';
+
+        return view('backend.profile', compact('user', 'userType'));
     }
 
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'name' => 'nullable|string|max:255',
-            'email' => 'nullable|string|email|max:255',
-            'alamat' => 'nullable|string|max:255',
-        ], [
-            'nomer_telepon.max' => 'Nomer telepon tidak boleh melebihi :max karakter',
-            'nomer_telepon.min' => 'Nomer telepon tidak boleh kurang dari :min karakter',
-            'alamat.max' => 'Jumlah huruf tidak boleh melebihi :max karakter',
-            'name.max' => 'Jumlah huruf tidak boleh melebihi :max karakter',
-        ]);
+        // Tentukan guard dan model yang digunakan
+        if (Auth::guard('pengguna')->check()) {
+            $user = Pengguna::findOrFail($id);
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'nomer_telepon' => [
+                    'required',
+                    'string',
+                    'regex:/^62\d{10,13}$/'
+                ],
+            ], [
+                'nomer_telepon.regex' => 'Nomor telepon harus diawali 62 dan terdiri dari 12-15 digit angka',
+                'name.max' => 'Nama tidak boleh lebih dari :max karakter',
+            ]);
 
-        $user = Auth::user();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->nomer_telepon = $request->input('nomer_telepon');
-        $user->alamat = $request->input('alamat');
-        
+            $user->full_name = $request->name;
+            $user->phone_number = $request->nomer_telepon;
+        } else {
+            $user = User::findOrFail($id);
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'nomer_telepon' => [
+                    'required',
+                    'string',
+                    'regex:/^62\d{10,13}$/'
+                ],
+                'alamat' => 'required|string|max:255',
+            ], [
+                'nomer_telepon.regex' => 'Nomor telepon harus diawali 62 dan terdiri dari 12-15 digit angka',
+                'name.max' => 'Nama tidak boleh lebih dari :max karakter',
+                'alamat.max' => 'Alamat tidak boleh lebih dari :max karakter',
+            ]);
+
+            $user->name = $request->name;
+            $user->nomer_telepon = $request->nomer_telepon;
+            $user->alamat = $request->alamat;
+        }
+
         $user->save();
 
-        return redirect()->route('profile.index')->with(['success' => 'Berhasil Mengedit Data']);
+        return redirect()->route('profile.index')
+            ->with('success', 'Profil berhasil diperbarui');
     }
-
 }

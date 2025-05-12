@@ -19,16 +19,13 @@ class RedirectIfAuthenticated
 
 
 
+    // app/Http/Middleware/RedirectIfAuthenticated.php
     public function handle(Request $request, Closure $next, string ...$guards)
     {
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                // Saat user sudah login tapi mengunjungi form login:
-                if ($guard === 'pengguna') {
-                    return redirect()->route('dashboard');
-                }
                 return redirect()->route('dashboard');
             }
         }

@@ -18,23 +18,14 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
+    // app/Http/Controllers/Auth/AuthenticatedSessionController.php
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
         $request->session()->regenerate();
 
-        Log::info('Current URL intended: ' . url()->previous());
-        Log::info('Session intended redirect: ' . session()->get('url.intended'));
-
-        if (Auth::guard('pengguna')->check()) {
-            Log::info('Redirecting pengguna ke dashboard.pengguna');
-            return redirect()->route('dashboard.pengguna');
-        }
-
-        Log::info('Redirecting user ke dashboard.user');
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard'); // Arahkan semua ke route dashboard
     }
-
     public function destroy(Request $request): RedirectResponse
     {
         // Logout dari guard yang aktif

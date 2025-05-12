@@ -12,22 +12,24 @@ use Illuminate\Support\Carbon;
 
 class InputPengumumanController extends Controller
 {
-    public function index(){
-        $pengu = Pengumuman::latest()->paginate();
+    public function index(): View
+    {
+        $pengu = Pengumuman::latest()->paginate(10);
         return view('backend.input_pengumuman', compact('pengu'));
     }
 
-    public function create()
+    public function create(): View
     {
-        
+        return view('backend.create_pengumuman');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'judulPengumuman' => 'required',
-            'deskripsiPengumuman' => 'required',
-            'tanggalPengumuman' => 'required',
+            'judulPengumuman' => 'required|string|max:255',
+            'deskripsiPengumuman' => 'required|string',
+            'tempatPengumuman' => 'required|string|max:255',
+            'tanggalPengumuman' => 'required|date',
         ]);
 
         Pengumuman::create([
@@ -35,40 +37,51 @@ class InputPengumumanController extends Controller
             'deskripsiPengumuman' => $request->deskripsiPengumuman,
             'tempatPengumuman' => $request->tempatPengumuman,
             'tanggalPengumuman' => $request->tanggalPengumuman,
-
         ]);
 
-        return redirect()->route('input_pengumuman.index')->with(['success' => 'Berhasil Menambahkan Pengumuman']);
+        return redirect()->route('input_pengumuman.index')
+            ->with('success', 'Berhasil Menambahkan Pengumuman');
     }
 
-    public function show(string $id)
+    public function show(string $id): View
     {
-        
+        $pengu = Pengumuman::findOrFail($id);
+        return view('backend.show_pengumuman', compact('pengu')); // Create this view for showing details
     }
 
-    public function update(Request $request, string $id)
+    public function edit(string $id): View
     {
+        $pengu = Pengumuman::findOrFail($id);
+        return view('backend.tampil_pengumuman', compact('pengu'));
+    }
 
-        $pengu = Pengumuman::find($id);
+    public function update(Request $request, string $id): RedirectResponse
+    {
+        $request->validate([
+            'judulPengumuman' => 'required|string|max:255',
+            'deskripsiPengumuman' => 'required|string',
+            'tempatPengumuman' => 'required|string|max:255',
+            'tanggalPengumuman' => 'required|date',
+        ]);
+
+        $pengu = Pengumuman::findOrFail($id);
         $pengu->update([
             'judulPengumuman' => $request->judulPengumuman,
             'deskripsiPengumuman' => $request->deskripsiPengumuman,
             'tempatPengumuman' => $request->tempatPengumuman,
             'tanggalPengumuman' => $request->tanggalPengumuman,
         ]);
-        return redirect()->route('input_pengumuman.index')->with(['success' => 'Berhasil Mengedit Pengumuman']);
+
+        return redirect()->route('input_pengumuman.index')
+            ->with('success', 'Berhasil Mengedit Pengumuman');
     }
 
-    public function edit(string $id)
+    public function destroy(string $id): RedirectResponse
     {
-        $pengu = Pengumuman::find($id);
-        return view('backend.tampil_pengumuman', compact('pengu'));
-    }
-
-    public function destroy(string $id)
-    {
-        $pengu = Pengumuman::find($id);
+        $pengu = Pengumuman::findOrFail($id);
         $pengu->delete();
-        return redirect()->route('input_pengumuman.index')->with(['success' => 'Berhasil Menghapus Pengumuman']);
+
+        return redirect()->route('input_pengumuman.index')
+            ->with('success', 'Berhasil Menghapus Pengumuman');
     }
 }

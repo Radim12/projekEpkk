@@ -28,49 +28,51 @@
 
 
 
- <!-- Favicons -->
+  <!-- Favicons -->
 
- <link href="{{ asset('backend/assets/img/favicon.png') }}" rel="icon">
+  <link href="{{ asset('backend/assets/img/favicon.png') }}" rel="icon">
 
- <link href="{{ asset('backend/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
-
-
-
- <!-- Google Fonts -->
-
- <link href="https://fonts.gstatic.com" rel="preconnect">
-
- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="{{ asset('backend/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
 
 
- <!-- Vendor CSS Files -->
+  <!-- Google Fonts -->
 
- <link href="{{ asset('backend/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="https://fonts.gstatic.com" rel="preconnect">
 
- <link href="{{ asset('backend/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-
- <link href="{{ asset('backend/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
-
- <link href="{{ asset('backend/assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
-
- <link href="{{ asset('backend/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
-
- <link href="{{ asset('backend/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
-
- <link href="{{ asset('backend/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
 
 
- <!-- Template Main CSS File -->
+  <!-- Vendor CSS Files -->
 
- <link href="{{ asset('backend/assets/css/style.css') }}" rel="stylesheet">
+  <link href="{{ asset('backend/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+  <link href="{{ asset('backend/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+
+  <link href="{{ asset('backend/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+
+  <link href="{{ asset('backend/assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
+
+  <link href="{{ asset('backend/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+
+  <link href="{{ asset('backend/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+
+  <link href="{{ asset('backend/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
 
 
 
-    {{-- fontawesome --}}
+  <!-- Template Main CSS File -->
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('fontawesome/css/all.min.css') }}">
+  <link href="{{ asset('backend/assets/css/style.css') }}" rel="stylesheet">
+
+
+
+  {{-- fontawesome --}}
+
+  <link rel="stylesheet" type="text/css" href="{{ asset('fontawesome/css/all.min.css') }}">
 
 
 
@@ -82,269 +84,268 @@
 
 
 
-    <!-- ======= Header ======= -->
+  <!-- ======= Header ======= -->
 
-    <header id="header" class="header fixed-top d-flex align-items-center">
+  <header id="header" class="header fixed-top d-flex align-items-center">
 
 
 
-      <div class="d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center justify-content-between">
 
-        <a href="{{ route('dashboard') }}" class="logo d-flex align-items-center">
+      <a href="{{ route('dashboard') }}" class="logo d-flex align-items-center">
 
-          <img src="{{asset('backend/assets/img/pkk.png')}}" alt="">
+        <img src="{{asset('backend/assets/img/pkk.png')}}" alt="">
 
-          <span class="d-none d-lg-block">PKK NGANJUK</span>
+        <span class="d-none d-lg-block">PKK NGANJUK</span>
+
+      </a>
+
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+
+    </div><!-- End Logo -->
+
+
+
+    <nav class="header-nav ms-auto">
+
+    </nav><!-- End Icons Navigation -->
+
+
+
+  </header><!-- End Header -->
+
+
+
+  <!-- ======= Sidebar ======= -->
+
+  <aside id="sidebar" class="sidebar">
+
+
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+
+
+      <li class="nav-item">
+
+        <a class="nav-link collapsed" href="{{ route('dashboard') }}">
+
+          <i class="bi bi-grid"></i>
+
+          <span>Dashboard</span>
 
         </a>
 
-        <i class="bi bi-list toggle-sidebar-btn"></i>
+      </li><!-- End Dashboard Nav -->
 
-      </div><!-- End Logo -->
+      <li class="nav-item">
 
-  
-
-      <nav class="header-nav ms-auto">
-
-      </nav><!-- End Icons Navigation -->
-
-  
-
-    </header><!-- End Header -->
-
-  
-
-    <!-- ======= Sidebar ======= -->
-
-    <aside id="sidebar" class="sidebar">
-
-
-
-      <ul class="sidebar-nav" id="sidebar-nav">
-
-  
-
-        <li class="nav-item">
-
-          <a class="nav-link collapsed" href="{{ route('dashboard') }}">
-
-            <i class="bi bi-grid"></i>
-
-            <span>Dashboard</span>
-
-          </a>
-
-        </li><!-- End Dashboard Nav -->
-
-        <li class="nav-item">
-
-          <a class="nav-link collapsed" href="{{ route('ttd.index') }}">
+        <a class="nav-link collapsed" href="{{ route('ttd.index') }}">
 
           <i class="fa-solid fa-signature"></i>
 
-            <span>Tanda Tangan</span>
+          <span>Tanda Tangan</span>
 
-          </a>
+        </a>
 
-        </li><!-- End Dashboard Nav -->
+      </li><!-- End Dashboard Nav -->
 
-        <li class="nav-item">
+      <li class="nav-item">
 
-          <a class="nav-link collapsed" href="{{ route('input_berita.index') }}">
+        <a class="nav-link collapsed" href="{{ route('input_berita.index') }}">
 
-            <i class="fa-solid fa-newspaper"></i>
+          <i class="fa-solid fa-newspaper"></i>
 
-            <span>Berita</span>
+          <span>Berita</span>
 
-          </a>
+        </a>
 
-        </li><!-- End Dashboard Nav -->
+      </li><!-- End Dashboard Nav -->
 
-  
 
-        <li class="nav-item">
 
-          <a class="nav-link collapsed" href="{{ route('input_pengumuman.index') }}">
+      <li class="nav-item">
 
-            <i class="fa-sharp fa-solid fa-bullhorn"></i>
+        <a class="nav-link collapsed" href="{{ route('input_pengumuman.index') }}">
 
-            <span>Pengumuman</span>
+          <i class="fa-sharp fa-solid fa-bullhorn"></i>
 
-          </a>
+          <span>Pengumuman</span>
 
-        </li><!-- End Dashboard Nav -->
+        </a>
 
+      </li><!-- End Dashboard Nav -->
 
 
-        <li class="nav-item">
 
-          <a class="nav-link collapsed" data-bs-target="#galeri_nav" data-bs-toggle="collapse" href="#">
+      <li class="nav-item">
 
-            <i class="fa-solid fa-image"></i><span>Galeri</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#galeri_nav" data-bs-toggle="collapse" href="#">
 
-          </a>
+          <i class="fa-solid fa-image"></i><span>Galeri</span><i class="bi bi-chevron-down ms-auto"></i>
 
-          <ul id="galeri_nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        </a>
 
-            <li>
+        <ul id="galeri_nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 
-              <a href="{{ route('galeribidangumum.index') }}">
+          <li>
 
-                <i class="bi bi-circle"></i><span>Bidang Umum</span>
+            <a href="{{ route('galeribidangumum.index') }}">
 
-              </a>
+              <i class="bi bi-circle"></i><span>Bidang Umum</span>
 
-            </li>
+            </a>
 
-            <li>
+          </li>
 
-              <a href="{{ route('galeripokja1.index') }}">
+          <li>
 
-                <i class="bi bi-circle"></i><span>Kelompok Kerja 1</span>
+            <a href="{{ route('galeripokja1.index') }}">
 
-              </a>
+              <i class="bi bi-circle"></i><span>Kelompok Kerja 1</span>
 
-            </li>
+            </a>
 
-            <li>
+          </li>
 
-              <a href="{{ route('galeripokja2.index') }}">
+          <li>
 
-                <i class="bi bi-circle"></i><span>Kelompok Kerja 2</span>
+            <a href="{{ route('galeripokja2.index') }}">
 
-              </a>
+              <i class="bi bi-circle"></i><span>Kelompok Kerja 2</span>
 
-            </li>
+            </a>
 
-            <li>
+          </li>
 
-              <a href="{{ route('galeripokja3.index') }}">
+          <li>
 
-                <i class="bi bi-circle"></i><span>Kelompok Kerja 3</span>
+            <a href="{{ route('galeripokja3.index') }}">
 
-              </a>
+              <i class="bi bi-circle"></i><span>Kelompok Kerja 3</span>
 
-            </li>
+            </a>
 
-            <li>
+          </li>
 
-              <a href="{{ route('galeripokja4.index') }}">
+          <li>
 
-                <i class="bi bi-circle"></i><span>Kelompok Kerja 4</span>
+            <a href="{{ route('galeripokja4.index') }}">
 
-              </a>
+              <i class="bi bi-circle"></i><span>Kelompok Kerja 4</span>
 
-            </li>
+            </a>
 
-          </ul>
+          </li>
 
-        </li><!-- End Components Nav -->
+        </ul>
 
-  
+      </li><!-- End Components Nav -->
 
-        <li class="nav-item">
 
-          <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
 
-            <i class="fa-solid fa-book"></i><span>Kelompok Kerja</span><i class="bi bi-chevron-down ms-auto"></i>
+      <li class="nav-item">
 
-          </a>
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
 
-          <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+          <i class="fa-solid fa-book"></i><span>Kelompok Kerja</span><i class="bi bi-chevron-down ms-auto"></i>
 
-            <li>
+        </a>
 
-              <a href="{{ route('accbidangumum.index') }}">
+        <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
 
-                <i class="bi bi-circle"></i><span>Bidang Umum</span>
+          <li>
 
-              </a>
+            <a href="{{ route('accbidangumum.index') }}">
 
-            </li>
+              <i class="bi bi-circle"></i><span>Bidang Umum</span>
 
-            <li>
+            </a>
 
-              <a href="{{ route('pokja1.index') }}">
+          </li>
 
-                <i class="bi bi-circle"></i><span>Kelompok Kerja 1</span>
+          <li>
 
-              </a>
+            <a href="{{ route('pokja1.index') }}">
 
-            </li>
+              <i class="bi bi-circle"></i><span>Kelompok Kerja 1</span>
 
-            <li>
+            </a>
 
-              <a href="{{ route('pokja2.index') }}">
+          </li>
 
-                <i class="bi bi-circle"></i><span>Kelompok Kerja 2</span>
+          <li>
 
-              </a>
+            <a href="{{ route('pokja2.index') }}">
 
-            </li>
+              <i class="bi bi-circle"></i><span>Kelompok Kerja 2</span>
 
-            <li>
+            </a>
 
-              <a href="{{ route('pokja3.index') }}" class="active">
+          </li>
 
-                <i class="bi bi-circle"></i><span>Kelompok Kerja 3</span>
+          <li>
 
-              </a>
+            <a href="{{ route('pokja3.index') }}" class="active">
 
-            </li>
+              <i class="bi bi-circle"></i><span>Kelompok Kerja 3</span>
 
-            <li>
+            </a>
 
-              <a href="{{ route('pokja4.index') }}"
+          </li>
 
-                <i class="bi bi-circle"></i><span>Kelompok Kerja 4</span>
+          <li>
 
-              </a>
+            <a href="{{ route('pokja4.index') }}" <i class="bi bi-circle"></i><span>Kelompok Kerja 4</span>
 
-            </li>
+            </a>
 
-          </ul>
+          </li>
 
-        </li><!-- End Components Nav -->
+        </ul>
 
+      </li><!-- End Components Nav -->
 
 
-        <li class="nav-heading">Halaman</li>
 
+      <li class="nav-heading">Halaman</li>
 
 
-        <li class="nav-item">
 
-          <a class="nav-link collapsed" href="{{ route('profile.index') }}" >
+      <li class="nav-item">
 
-            <i class="fa-solid fa-user"></i>
+        <a class="nav-link collapsed" href="{{ route('profile.index') }}">
 
-            <span>Profil</span>
+          <i class="fa-solid fa-user"></i>
 
-          </a>
+          <span>Profil</span>
 
-        </li>
+        </a>
 
-  
+      </li>
 
-        <li class="nav-item">
 
-          <a class="nav-link collapsed" href="{{ route('logout') }}" onclick="return confirm('Apakah anda yakin ingin keluar?')">
 
-            <i class="fa-solid fa-right-from-bracket"></i>
+      <li class="nav-item">
 
-            <span>Keluar</span>
+        <a class="nav-link collapsed" href="{{ route('logout') }}"
+          onclick="return confirm('Apakah anda yakin ingin keluar?')">
 
-          </a>
+          <i class="fa-solid fa-right-from-bracket"></i>
 
-        </li><!-- End Contact Page Nav -->
+          <span>Keluar</span>
 
-  
+        </a>
 
-      </ul>
+      </li><!-- End Contact Page Nav -->
 
-  
 
-    </aside><!-- End Sidebar-->
+
+    </ul>
+
+
+
+  </aside><!-- End Sidebar-->
 
 
 
@@ -368,151 +369,128 @@
 
             <div class="card-body mt-4">
 
-              <form action="{{ route('sandang.update', $data->id_pokja3_bidang2) }}" method="POST" enctype="multipart/form-data" onsubmit="return confirmSubmission()">
+              <form action="{{ route('sandang.update', $data->id_pokja3_bidang2) }}" method="POST"
+                enctype="multipart/form-data" onsubmit="return confirmSubmission()">
 
 
 
-                @csrf   
+                @csrf
 
                 @method('PUT')
 
                 <div class="form-outline mb-4">
 
-                  
 
-                <div class="form-outline mb-4 mt-3">
+
+                  <div class="form-outline mb-4 mt-3">
 
                     <label for="id_pokja3_bidang2" class="form-label">ID Laporan Program Sandang</label>
 
-                    <input type="text" name="id_pokja3_bidang2" id="id_pokja3_bidang2" class="form-control"
-
-                    required readonly oninvalid="this.setCustomValidity('Harap lengkapi id laporan')" 
-
-                    oninput="this.setCustomValidity('')" 
-
-                    placeholder="Masukkan Judul" value="{{ $data->id_pokja3_bidang2 }}"/>
-
-                </div>
-
-
-
-                <div class="form-outline mb-4 mt-3">
-
-                    <label for="pangan" class="form-label">Pangan</label>
-
-                    <input type="text" name="pangan" id="pangan" class="form-control"
-
-                    required readonly oninvalid="this.setCustomValidity('Harap lengkapi kategori laporan')" 
-
-                    oninput="this.setCustomValidity('')" 
-
-                    placeholder="Masukkan Judul" value="{{ $data->pangan }}"/>
-
-                </div>
-
-
-
-                <div class="form-outline mb-4 mt-3">
-
-                    <label for="sandang" class="form-label">Sandang</label>
-
-                    <input type="text" name="sandang" id="sandang" class="form-control"
-
-                    required readonly oninvalid="this.setCustomValidity('Harap lengkapi jumlah posyandu')" 
-
-                    oninput="this.setCustomValidity('')" 
-
-                    placeholder="Masukkan Judul" value="{{ $data->sandang }}"/>
-
-                </div>
-
-
-
-                <div class="form-outline mb-4 mt-3">
-
-                    <label for="jasa" class="form-label">Jasa</label>
-
-                    <input type="text" name="jasa" id="jasa" class="form-control"
-
-                    required readonly oninvalid="this.setCustomValidity('Harap lengkapi jumlah posyandu terintegrasi')" 
-
-                    oninput="this.setCustomValidity('')" 
-
-                    placeholder="Masukkan Judul" value="{{ $data->jasa }}"/>
-
-                </div>
-
-
-
-                <div class="form-outline mb-4 mt-3">
-
-                    <label for="id_user" class="form-label">Id Pengguna</label>
-
-                    <input type="text" name="id_user" id="id_user" class="form-control"
-
-                    required readonly oninvalid="this.setCustomValidity('Harap lengkapi id pengguna')" 
-
-                    oninput="this.setCustomValidity('')" 
-
-                    placeholder="Masukkan Judul" value="{{ $data->id_user }}"/>
-
-                </div>
-
-
-
-                <div class="form-outline mb-4">
-
-                  <label for="status" class="form-label">Status</label>
-
-                  <select name="status" class="datepicker-trigger form-control hasDatepicker" onchange="exibeMsg(this.value);">
-
-                    <option value="">--Pilih--</option>  
-
-                    <option value="Revisi">Revisi</option>
-
-                    <option value="Disetujui">Disetujui</option>
-
-                  </select>
+                    <input type="text" name="id_pokja3_bidang2" id="id_pokja3_bidang2" class="form-control" required
+                      readonly oninvalid="this.setCustomValidity('Harap lengkapi id laporan')"
+                      oninput="this.setCustomValidity('')" placeholder="Masukkan Judul"
+                      value="{{ $data->id_pokja3_bidang2 }}" />
 
                   </div>
 
-              </div>
+
+
+                  <div class="form-outline mb-4 mt-3">
+
+                    <label for="pangan" class="form-label">Pangan</label>
+
+                    <input type="text" name="pangan" id="pangan" class="form-control" required readonly
+                      oninvalid="this.setCustomValidity('Harap lengkapi kategori laporan')"
+                      oninput="this.setCustomValidity('')" placeholder="Masukkan Judul" value="{{ $data->pangan }}" />
+
+                  </div>
 
 
 
-              <div class="form-outline mb-1 mt-3">
+                  <div class="form-outline mb-4 mt-3">
+
+                    <label for="sandang" class="form-label">Sandang</label>
+
+                    <input type="text" name="sandang" id="sandang" class="form-control" required readonly
+                      oninvalid="this.setCustomValidity('Harap lengkapi jumlah posyandu')"
+                      oninput="this.setCustomValidity('')" placeholder="Masukkan Judul" value="{{ $data->sandang }}" />
+
+                  </div>
+
+
+
+                  <div class="form-outline mb-4 mt-3">
+
+                    <label for="jasa" class="form-label">Jasa</label>
+
+                    <input type="text" name="jasa" id="jasa" class="form-control" required readonly
+                      oninvalid="this.setCustomValidity('Harap lengkapi jumlah posyandu terintegrasi')"
+                      oninput="this.setCustomValidity('')" placeholder="Masukkan Judul" value="{{ $data->jasa }}" />
+
+                  </div>
+
+
+
+                  <div class="form-outline mb-4 mt-3">
+
+                    <label for="id_user" class="form-label">Id Pengguna</label>
+
+                    <input type="text" name="id_user" id="id_user" class="form-control" required readonly
+                      oninvalid="this.setCustomValidity('Harap lengkapi id pengguna')"
+                      oninput="this.setCustomValidity('')" placeholder="Masukkan Judul" value="{{ $data->id_user }}" />
+
+                  </div>
+
+
+
+                  <div class="form-outline mb-4">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" class="datepicker-trigger form-control hasDatepicker"
+                      onchange="exibeMsg(this.value);">
+                      <option value="">--Pilih--</option>
+                      <option value="Revisi">Revisi</option>
+                      @if(Auth::guard('pengguna')->check())
+              <option value="Disetujui">Disetujui (Kecamatan)</option>
+            @else
+              <option value="Disetujui">Disetujui (Admin)</option>
+            @endif
+                    </select>
+                  </div>
+
+                </div>
+
+
+
+                <div class="form-outline mb-1 mt-3">
 
                   <label for="catatan" class="form-label">Catatan</label>
 
-                  <input type="text" name="catatan" id="catatan" class="form-control"
+                  <input type="text" name="catatan" id="catatan" class="form-control" placeholder="Masukkan Catatan"
+                    value="{{ $data->catatan }}" />
 
-                  placeholder="Masukkan Catatan" value="{{ $data->catatan }}"/>
+                </div>
 
-              </div>
-
-              <p class="mb-4">*Jika laporan perlu di revisi maka bisa menambahkan catatan dan catatan hanya di isi jika status laporan menjadi <b>Revisi</b></p>
+                <p class="mb-4">*Jika laporan perlu di revisi maka bisa menambahkan catatan dan catatan hanya di isi
+                  jika status laporan menjadi <b>Revisi</b></p>
 
 
 
                 <div class="form-outline mb-4 mt-3">
 
-                    <label for="tanggal" class="form-label">Tanggal</label>
+                  <label for="tanggal" class="form-label">Tanggal</label>
 
-                    <input type="text" name="tanggal" id="tanggal" class="form-control"
-
-                    required readonly oninvalid="this.setCustomValidity('Harap lengkapi judul')" 
-
-                    oninput="this.setCustomValidity('')" 
-
-                    placeholder="Masukkan Judul" value="{{ $data->tanggal }}"/>
+                  <input type="text" name="tanggal" id="tanggal" class="form-control" required readonly
+                    oninvalid="this.setCustomValidity('Harap lengkapi judul')" oninput="this.setCustomValidity('')"
+                    placeholder="Masukkan Judul" value="{{ $data->tanggal }}" />
 
                 </div>
 
-  
+
 
                 <div class="text-end pt-1 pb-1 mt-4">
 
-                  <button class="btn btn-success ps-xxl-5 pe-xxl-5 mr-auto background-blue-1 mb-2 fw-semibold fs-5" type="submit">Upload</button>
+                  <button class="btn btn-success ps-xxl-5 pe-xxl-5 mr-auto background-blue-1 mb-2 fw-semibold fs-5"
+                    type="submit">Upload</button>
 
                 </div>
 
@@ -540,59 +518,60 @@
 
 
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
 
 
-<!-- Vendor JS Files -->
+  <!-- Vendor JS Files -->
 
-<script src="{{ asset('backend/assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
 
-<script src="{{ asset('backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-<script src="{{ asset('backend/assets/vendor/chart.js/chart.umd.js') }}"></script>
+  <script src="{{ asset('backend/assets/vendor/chart.js/chart.umd.js') }}"></script>
 
-<script src="{{ asset('backend/assets/vendor/echarts/echarts.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/vendor/echarts/echarts.min.js') }}"></script>
 
-<script src="{{ asset('backend/assets/vendor/quill/quill.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/vendor/quill/quill.min.js') }}"></script>
 
-<script src="{{ asset('backend/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+  <script src="{{ asset('backend/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
 
-<script src="{{ asset('backend/assets/vendor/tinymce/tinymce.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/vendor/tinymce/tinymce.min.js') }}"></script>
 
-<script src="{{ asset('backend/assets/vendor/php-email-form/validate.js') }}"></script>
+  <script src="{{ asset('backend/assets/vendor/php-email-form/validate.js') }}"></script>
 
 
 
-<!-- Template Main JS File -->
+  <!-- Template Main JS File -->
 
-<script src="{{ asset('backend/assets/js/main.js') }}"></script>
+  <script src="{{ asset('backend/assets/js/main.js') }}"></script>
 
-<script>
+  <script>
 
-function confirmSubmission() {
+    function confirmSubmission() {
 
-  var status = document.querySelector('select[name="status"]').value;
+      var status = document.querySelector('select[name="status"]').value;
 
-  if (status === "Revisi") {
+      if (status === "Revisi") {
 
-    return confirm('Apakah Anda yakin ingin mengubah status menjadi Revisi? Catatan perlu diisi.');
+        return confirm('Apakah Anda yakin ingin mengubah status menjadi Revisi? Catatan perlu diisi.');
 
-  } else if (status === "Disetujui") {
+      } else if (status === "Disetujui") {
 
-    return confirm('Apakah Anda yakin ingin menyetujui laporan ini?');
+        return confirm('Apakah Anda yakin ingin menyetujui laporan ini?');
 
-  } else {
+      } else {
 
-    alert('Harap pilih status laporan.');
+        alert('Harap pilih status laporan.');
 
-    return false; // Prevent form submission if no status is selected
+        return false; // Prevent form submission if no status is selected
 
-  }
+      }
 
-}
+    }
 
-</script>
+  </script>
 
 
 
@@ -600,6 +579,8 @@ function confirmSubmission() {
 
 
 
-{{-- </html> --}}
+{{--
+
+</html> --}}
 
 {{-- @endsection --}}

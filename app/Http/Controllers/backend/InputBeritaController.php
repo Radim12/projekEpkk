@@ -11,15 +11,13 @@ use Illuminate\Support\Facades\Storage;
 
 class InputBeritaController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $data = Berita::latest()->paginate();
         return view('backend.input_berita', compact('data'));
     }
 
-    public function create()
-    {
-        
-    }
+    public function create() {}
 
     public function store(Request $request)
     {
@@ -27,84 +25,101 @@ class InputBeritaController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'judul' => 'required',
             'deskripsi' => 'required',
-            'file' => 'file',
+            'file' => 'nullable|file',
         ]);
-        if ($request->file('file')) {
-        $imageName = $request->file('image')->getClientOriginalName();
-        $tujuan_upload = 'storage/berita';
-        $request->image->move($tujuan_upload, $imageName);
 
-        $file = $request->file('file');
-        $file->getClientOriginalName();
-        $file->getClientOriginalExtension();
-        $file->getRealPath();
-        $file->getSize();
-        $file->getMimeType();
-        $file = $request->file('file')->getClientOriginalName();
-        $tujuan_upload = 'storage/berita/file';
-        $request->file->move($tujuan_upload, $file);
+        try {
+            // Buat direktori jika belum ada
+            if (!file_exists('storage/berita')) {
+                mkdir('storage/berita', 0777, true);
+            }
+            if (!file_exists('storage/berita/file')) {
+                mkdir('storage/berita/file', 0777, true);
+            }
 
-        Berita::create([
-            'image' => $imageName,
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-            'file' => $file,
-        ]);
-    }else{
-        $imageName = $request->file('image')->getClientOriginalName();
-        $tujuan_upload = 'storage/berita';
-        $request->image->move($tujuan_upload, $imageName);
-        Berita::create([
-            'image' => $imageName,
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-        ]);
-    }
-        return redirect()->route('input_berita.index')->with(['success' => 'Berhasil Menambahkan Berita']);
-    }
+            $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
+            $request->image->move('storage/berita', $imageName);
 
-    public function show(string $id)
-    {
-        
-    }
-
-    public function update(Request $request, string $id)
-    {
-        $data = Berita::find($id);
-
-        if ($request->file('image') ) {
-            $imageName = $request->file('image')->getClientOriginalName();
-            $tujuan_upload = 'storage/berita';
-            $request->image->move($tujuan_upload, $imageName);
-
-            $data->update([
+            $data = [
                 'image' => $imageName,
                 'judul' => $request->judul,
                 'deskripsi' => $request->deskripsi,
-            ]);
-        }elseif($request->file('file') ) {
-            $file = $request->file('file');
-            $file->getClientOriginalName();
-            $file->getClientOriginalExtension();
-            $file->getRealPath();
-            $file->getSize();
-            $file->getMimeType();
-            $file = $request->file('file')->getClientOriginalName();
-            $tujuan_upload = 'storage/berita';
-            $request->file->move($tujuan_upload, $file);
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
 
-            $data->update([
+            if ($request->hasFile('file')) {
+                $fileName = time() . '_' . $request->file('file')->getClientOriginalName();
+                $request->file->move('storage/berita/file', $fileName);
+                $data['file'] = $fileName;
+            }
+
+            Berita::create($data);
+
+            return redirect()->route('input_berita.index')
+                ->with(['success' => 'Berhasil Menambahkan Berita']);
+        } catch (\Exception $e) {
+            return back()->withInput()
+                ->with(['error' => 'Gagal menyimpan berita: ' . $e->getMessage()]);
+        }
+    }
+
+    public function show(string $id) {}
+
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'file' => 'nullable|file',
+        ]);
+
+        try {
+            $data = Berita::findOrFail($id);
+            $updateData = [
                 'judul' => $request->judul,
                 'deskripsi' => $request->deskripsi,
-                'file' => $file,
-            ]);
-        }else{
-        $data->update([
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-        ]);
+                'updated_at' => now(),
+            ];
+
+            // Handle image update
+            if ($request->hasFile('image')) {
+                $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
+                $request->file('image')->move('storage/berita', $imageName);
+                $updateData['image'] = $imageName;
+
+                // Delete old image if exists
+                if ($data->image && file_exists('storage/berita/' . $data->image)) {
+                    unlink('storage/berita/' . $data->image);
+                }
+            }
+
+            // Handle file update
+            if ($request->hasFile('file')) {
+                // Buat direktori jika belum ada
+                if (!file_exists('storage/berita/file')) {
+                    mkdir('storage/berita/file', 0777, true);
+                }
+
+                $fileName = time() . '_' . $request->file('file')->getClientOriginalName();
+                $request->file('file')->move('storage/berita/file', $fileName);
+                $updateData['file'] = $fileName;
+
+                // Delete old file if exists
+                if ($data->file && file_exists('storage/berita/file/' . $data->file)) {
+                    unlink('storage/berita/file/' . $data->file);
+                }
+            }
+
+            $data->update($updateData);
+
+            return redirect()->route('input_berita.index')
+                ->with(['success' => 'Berhasil Mengedit Berita']);
+        } catch (\Exception $e) {
+            return back()->withInput()
+                ->with(['error' => 'Gagal mengupdate berita: ' . $e->getMessage()]);
         }
-    return redirect()->route('input_berita.index')->with(['success' => 'Berhasil Mengedit Berita']);
     }
 
     public function edit(string $id)
@@ -114,9 +129,9 @@ class InputBeritaController extends Controller
     }
 
     public function destroy(string $id)
-    
+
     {
-        
+
         $data = Berita::find($id);
 
         $data->delete();

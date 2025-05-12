@@ -6,16 +6,63 @@ use Illuminate\Http\Request;
 use App\Models\LaporanPokja1;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanPokja1Controller extends Controller
 {
-    public function index() {
-        $data = DB::table('laporan_kader_pokja1')
-        ->join('penggunas', 'laporan_kader_pokja1.id_user', '=', 'penggunas.id')
-        ->select('laporan_kader_pokja1.*', 'penggunas.nama_kec')
-        ->where('laporan_kader_pokja1.status', 'proses')
-        ->orderBy('id_kader_pokja1', 'desc')
-        ->get();
+    public function index() 
+    {
+        // Cek guard yang aktif
+        if (Auth::guard('pengguna')->check()) {
+            // Jika guard pengguna (mobile)
+            $user = Auth::guard('pengguna')->user();
+            
+            if ($user->id_role == 2) { // Kecamatan
+                // Ambil data desa (role 1) di kecamatan yang sama
+                $data = DB::table('laporan_kader_pokja1')
+                    ->join('users_mobile', 'laporan_kader_pokja1.id_user', '=', 'users_mobile.id')
+                    ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
+                    ->join('village', 'users_mobile.id_village', '=', 'village.id')
+                    ->select(
+                        'laporan_kader_pokja1.*', 
+                        'subdistrict.name as nama_kecamatan',
+                        'village.name as nama_desa'
+                    )
+                    ->where('users_mobile.id_subdistrict', $user->id_subdistrict)
+                    ->where('users_mobile.id_role', 1) // Hanya desa
+                    ->whereIn('laporan_kader_pokja1.status', ['disetujui1', 'proses'])
+                    ->orderBy('laporan_kader_pokja1.id_kader_pokja1', 'desc')
+                    ->get();
+            } else { // Desa (role 1)
+                $data = DB::table('laporan_kader_pokja1')
+                    ->join('users_mobile', 'laporan_kader_pokja1.id_user', '=', 'users_mobile.id')
+                    ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
+                    ->join('village', 'users_mobile.id_village', '=', 'village.id')
+                    ->select(
+                        'laporan_kader_pokja1.*', 
+                        'subdistrict.name as nama_kecamatan',
+                        'village.name as nama_desa'
+                    )
+                    ->where('laporan_kader_pokja1.id_user', $user->id)
+                    ->whereIn('laporan_kader_pokja1.status', ['disetujui1', 'proses'])
+                    ->orderBy('laporan_kader_pokja1.id_kader_pokja1', 'desc')
+                    ->get();
+            }
+        } else { // Guard web (admin)
+            $data = DB::table('laporan_kader_pokja1')
+                ->join('users_mobile', 'laporan_kader_pokja1.id_user', '=', 'users_mobile.id')
+                ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
+                ->join('village', 'users_mobile.id_village', '=', 'village.id')
+                ->select(
+                    'laporan_kader_pokja1.*', 
+                    'subdistrict.name as nama_kec',
+                    'village.name as nama_desa'
+                )
+                ->whereIn('laporan_kader_pokja1.status', ['disetujui2', 'disetujui1'])
+                ->orderBy('laporan_kader_pokja1.id_kader_pokja1', 'desc')
+                ->get();
+        }
+        
         return view('backend.laporanpokja1', compact('data'));
     }
 
@@ -24,27 +71,27 @@ class LaporanPokja1Controller extends Controller
         $data = LaporanPokja1::find($id_kader_pokja1);
         return view('backend.tampil_laporanpokja1', compact('data'));
     }
+
     public function update(Request $request, string $id_kader_pokja1)
     {
         $data = LaporanPokja1::find($id_kader_pokja1);
-            $data->update([
-                'PKBN' => $request->PKBN,
-                'PKDRT' => $request->PKDRT,
-                'pola_asuh' => $request->pola_asuh,
-                'id_user' => $request->id_user,
-                'status' => $request->status,
-                'catatan' => $request->catatan,
-                'tanggal' => $request->tanggal,
-            ]);
+        $data->update([
+            'PKBN' => $request->PKBN,
+            'PKDRT' => $request->PKDRT,
+            'pola_asuh' => $request->pola_asuh,
+            'id_user' => $request->id_user,
+            'status' => $request->status,
+            'catatan' => $request->catatan,
+            'tanggal' => $request->tanggal,
+        ]);
+        
         return redirect()->route('laporanpokja1.index')->with(['success' => 'Berhasil Mengubah Status']);
     }
+
     public function destroy(string $id_kader_pokja1)
     {
-        
         $data = LaporanPokja1::find($id_kader_pokja1);
-
         $data->delete();
-
         return redirect()->route('laporanpokja1.index')->with(['success' => 'Berhasil Menghapus Laporan']);
     }
 }

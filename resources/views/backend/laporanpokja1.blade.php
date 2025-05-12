@@ -214,7 +214,7 @@
                     <td class="text-center">{{ $got1->PKDRT }}</td>
                     <td class="text-center">{{ $got1->pola_asuh }}</td>
                     <td>{{ $got1->status }}</td>
-                    <td>{{ $got1->tanggal }}</td>
+                    <td>{{ $got1->created_at }}</td>
                     <td>
                          <a href="{{ route('laporanpokja1.edit', $got1->id_kader_pokja1	) }}" class="btn btn-sm btn-tambah">Review</a>
 

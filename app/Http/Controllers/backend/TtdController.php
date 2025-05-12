@@ -12,7 +12,8 @@ use Illuminate\Support\Carbon;
 
 class TtdController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $data = Ttd::latest()->paginate();
         return view('backend.ttd', compact('data'));
     }
@@ -36,13 +37,19 @@ class TtdController extends Controller
 
     public function update(Request $request, string $id_ttds)
     {
-
+        $request->validate([
+            'nama_terang' => 'required',
+            'jabatan' => 'required',
+            'pokja' => 'required',
+        ]);
+    
         $data = Ttd::find($id_ttds);
         $data->update([
             'nama_terang' => $request->nama_terang,
             'jabatan' => $request->jabatan,
             'pokja' => $request->pokja,
         ]);
+        
         return redirect()->route('ttd.index')->with(['success' => 'Berhasil Mengedit Tanda Tangan']);
     }
 

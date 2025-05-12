@@ -44,7 +44,7 @@
 
               <h3 class="text-center text-primary">Lupa Kata Sandi</h3>
               <p>Lupa kata sandi Anda? Tidak masalah. Beri tahu kami alamat email Anda dan kami akan mengirimi Anda tautan setel ulang kata sandi melalui email yang anda inputkan.</p>
-              <label for="email" class="form-label">Email</label>
+              <label for="email" class="form-label">Email atau nomor telepon</label>
               <input type="email" name="email" id="email" class="form-control"
                required oninvalid="this.setCustomValidity('Harap masukkan email anda')" 
                oninput="this.setCustomValidity('')" placeholder="Masukkan Email Anda"/>

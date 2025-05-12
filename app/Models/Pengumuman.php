@@ -9,16 +9,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Pengumuman extends Model
 {
     use HasFactory;
-    protected $guarded = [
-        'id'
-    ];
-    protected $dates = [
+
+    protected $fillable = [
+        'judulPengumuman',
+        'deskripsiPengumuman',
+        'tempatPengumuman',
         'tanggalPengumuman'
+    ];
+
+    protected $dates = [
+        'tanggalPengumuman',
+        'created_at',
+        'updated_at'
     ];
 
     public function getCreatedAtAttribute()
     {
-        return \Carbon\Carbon::parse($this->attributes['tanggalPengumuman'])
-        ->translatedFormat('l, d M Y');
+        return Carbon::parse($this->attributes['tanggalPengumuman'])
+            ->translatedFormat('l, d M Y');
     }
 }

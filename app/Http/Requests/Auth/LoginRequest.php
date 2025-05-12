@@ -43,25 +43,34 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        // Cari user/pengguna berdasarkan email/no_whatsapp
+        // Cari pengguna berdasarkan email/no_whatsapp
+        $pengguna = Pengguna::where('phone_number', $this->email)->first();
         $user = User::where('email', $this->email)->first();
-        $pengguna = Pengguna::where('no_whatsapp', $this->email)->first();
 
-        // Jika tidak ada di kedua tabel
-        if (!$user && !$pengguna) {
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+        // Prioritaskan pengecekan pengguna terlebih dahulu
+        if ($pengguna) {
+            // Pengecekan role sebelum pengecekan password
+            if ($pengguna->id_role == 1) {
+                throw ValidationException::withMessages([
+                    'email' => 'Silahkan masuk melalui aplikasi Android.',
+                ]);
+            }
+
+            $this->checkPenggunaPassword($pengguna);
+            return;
         }
 
-        // Proses pengecekan password
+        // Jika bukan pengguna, cek user biasa
         if ($user) {
             $this->checkUserPassword($user);
-        } else {
-            $this->checkPenggunaPassword($pengguna);
+            return;
         }
 
-        RateLimiter::clear($this->throttleKey());
+        // Jika tidak ditemukan sama sekali
+        RateLimiter::hit($this->throttleKey());
+        throw ValidationException::withMessages([
+            'email' => trans('auth.failed'),
+        ]);
     }
 
     // Cek password untuk User
@@ -86,27 +95,36 @@ class LoginRequest extends FormRequest
     // Cek password untuk Pengguna
     protected function checkPenggunaPassword($pengguna): void
     {
-        // Password disimpan sebagai plain text, lakukan perbandingan langsung
-        if ($this->password !== $pengguna->password) {
+        // Pastikan role 1 langsung gagal login
+        if ($pengguna->id_role == 1) {
             throw ValidationException::withMessages([
-                'password' => trans('auth.failed'),
+                'email' => 'Silahkan masuk melalui aplikasi Android.',
             ]);
         }
 
-        // Login manual untuk Pengguna dengan guard 'pengguna'
+        // Pastikan hanya role 2 yang bisa login
+        if ($pengguna->id_role != 2) {
+            throw ValidationException::withMessages([
+                'email' => 'Akun anda tidak memiliki akses ke sistem ini.',
+            ]);
+        }
+
+        // Pengecekan password hanya dilakukan jika role adalah 2
+        if (!Hash::check($this->password, $pengguna->password)) {
+            RateLimiter::hit($this->throttleKey());
+            throw ValidationException::withMessages([
+                'password' => 'Password yang anda masukkan salah.',
+            ]);
+        }
+
+        // Jika login berhasil
         Auth::guard('pengguna')->login($pengguna, $this->boolean('remember'));
         $this->session()->regenerate();
 
-        Log::info('After Pengguna login', [
-            'pengguna_logged_in' => Auth::guard('pengguna')->check(),
-            'pengguna_id' => Auth::guard('pengguna')->id(),
-        ]);
-
-        Log::info('Session status', [
-            'pengguna' => Auth::guard('pengguna')->check(),
-            'default' => Auth::check(),
-            'pengguna_id' => Auth::guard('pengguna')->id(),
-        ]);
+        Log::debug("Pengguna ID: " . $pengguna->id);
+        Log::debug("Role: " . $pengguna->id_role);
+        Log::debug("Input Password: " . $this->password);
+        Log::debug("Database Password: " . $pengguna->password);
     }
 
     public function ensureIsNotRateLimited(): void
