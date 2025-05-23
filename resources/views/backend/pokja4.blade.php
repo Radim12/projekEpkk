@@ -63,6 +63,15 @@
 
   <main id="main" class="main">
 
+    {{-- error data kosong --}}
+    @if (session('error'))
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>Perhatian!</strong> {{ session('error') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
+
+
     <section class="section dashboard">
       <div class="row">
 
@@ -97,11 +106,14 @@
                 <h5 class="card-title">Cetak Pertahun</h5>
 
                 <form action="{{ route('kesehatan.filter') }}" method="GET">
-                  <a>Tahunan : </a><select name="search2" class="input-laporan mt-2">
+                  <a>Tahunan : </a>
+                  <select name="search2" class="input-laporan mt-2">
                     <option>-- Pilih --</option>
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
+                    @for ($year = now()->year; $year >= 2021; $year--)
+            <option value="{{ $year }}">{{ $year }}</option>
+          @endfor
                   </select>
+
 
                   <button type="submit" class="input-laporan-btn btn-sm">Cetak</button>
                 </form>

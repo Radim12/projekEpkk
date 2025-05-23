@@ -5,13 +5,15 @@ namespace App\Http\Controllers\backend;
 use Illuminate\Http\Request;
 use App\Models\Galeri;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 
 class GaleriGotongRoyongController extends Controller
 {
     public function index(){
      
-        $data = Galeri::where('bidang', 'gotong royong')->where('status', 'Proses')
-        ->get();
+        $data = Galeri::where('bidang', 'Gotong Royong')
+                  ->whereIn('status', ['Upload', 'Proses'])
+                  ->get();
         return view('backend.galerigotongroyong', compact('data'));
     }
 
@@ -27,19 +29,24 @@ class GaleriGotongRoyongController extends Controller
             $data->update([
                 'deskripsi' => $request->deskripsi,
                 'tanggal' => $request->tanggal,
-                'status' => 'upload',
+                'status' => 'Upload',
             ]);
         return redirect()->route('galerigotongroyong.index')->with(['success' => 'Berhasil Menambahkan Galeri']);
     }
     
-    public function destroy($gambar)
+    public function destroy($id)
     {
-        $deletedRows = Galeri::where('gambar', $gambar)->delete();
+        $data = Galeri::findOrFail($id);
 
-    if ($deletedRows > 0) {
+        // Ganti dengan path sesuai lokasi file kamu
+        $filePath = public_path('frontend2/gallery2/' . $data->gambar);
 
-        return redirect()->route('galerigotongroyong.index')->with(['success' => 'Berhasil Menghapus Gambar dalam Galeri']);
-    }
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+        }
+        $data->delete();
+
+        return redirect()->route('galerigotongroyong.index')->with(['success' => 'Berhasil Menghapus Gambar dalam Galeri']);    
     }
 
 }

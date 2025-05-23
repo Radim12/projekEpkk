@@ -59,121 +59,8 @@
   </header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('dashboard') }}">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('ttd.index') }}">
-          <i class="fa-solid fa-signature"></i>
-          <span>Tanda Tangan</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('input_berita.index') }}">
-          <i class="fa-solid fa-newspaper"></i>
-          <span>Berita</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('input_pengumuman.index') }}">
-          <i class="fa-sharp fa-solid fa-bullhorn"></i>
-          <span>Pengumuman</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#galeri_nav" data-bs-toggle="collapse" href="#">
-          <i class="fa-solid fa-image"></i><span>Galeri</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="galeri_nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ route('galeribidangumum.index') }}">
-              <i class="bi bi-circle"></i><span>Bidang Umum</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja1.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 1</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja2.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 2</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja3.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 3</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja4.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 4</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="fa-solid fa-book"></i><span>Kelompok Kerja</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ route('accbidangumum.index') }}">
-              <i class="bi bi-circle"></i><span>Bidang Umum</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja1.index') }}" class="active">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 1</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja2.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 2</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja3.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 3</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja4.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 4</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
-
-      <li class="nav-heading">Halaman</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('profile.index') }}">
-          <i class="fa-solid fa-user"></i>
-          <span>Profil</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="logout" onclick="return confirm('Apakah anda yakin ingin keluar?')">
-          <i class="fa-solid fa-right-from-bracket"></i>
-          <span>Keluar</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
+  @include('backend.includes.sidebar')
+  <!-- End Sidebar-->
 
   <main id="main" class="main">
     <div class="pagetitle">
@@ -193,7 +80,12 @@
           <thead>
             <tr>
               <th scope="col">No</th>
-              <th class="text-center" scope="col">Kecamatan</th>
+              @if (Auth::guard('web')->check())
+          <th class="text-center" scope="col">Kecamatan</th>
+          <th class="text-center" scope="col">Desa</th>
+        @elseif (Auth::guard('pengguna')->check())
+          <th class="text-center" scope="col">Desa</th>
+        @endif
               <th class="text-center" scope="col">Kerja Bakti</th>
               <th class="text-center" scope="col">Rukun Kematian</th>
               <th class="text-center" scope="col">Keagamaan</th>
@@ -207,32 +99,36 @@
           <tbody>
             @php
         $no = 1;
-        @endphp
+      @endphp
             @forelse ($data as $got1)
-        <tr>
-          <th scope="row">{{ $no++ }}</th>
+          <tr>
+            <th scope="row">{{ $no++ }}</th>
+            @if (Auth::guard('web')->check())
           <td class="text-center">{{ $got1->nama_kec }}</td>
-          <td class="text-center">{{ $got1->kerja_bakti }}</td>
-          <td class="text-center">{{ $got1->rukun_kematian }}</td>
-          <td class="text-center">{{ $got1->keagamaan }}</td>
-          <td class="text-center">{{ $got1->jimpitan }}</td>
-          <td class="text-center">{{ $got1->arisan }}</td>
-          <td>{{ $got1->status }}</td>
-          <td>{{ $got1->created_at }}</td>
-          <td>
-          <a href="{{ route('gotongroyong.edit', $got1->id_pokja1_bidang2) }}"
-            class="btn btn-sm btn-tambah">Review</a>
+          <td class="text-center">{{ $got1->nama_desa }}</td>
+        @elseif (Auth::guard('pengguna')->check())
+          <td class="text-center">{{ $got1->nama_desa }}</td>
+        @endif
+            <td class="text-center">{{ $got1->kerja_bakti }}</td>
+            <td class="text-center">{{ $got1->rukun_kematian }}</td>
+            <td class="text-center">{{ $got1->keagamaan }}</td>
+            <td class="text-center">{{ $got1->jimpitan }}</td>
+            <td class="text-center">{{ $got1->arisan }}</td>
+            <td>{{ $got1->status }}</td>
+            <td>{{ $got1->created_at }}</td>
+            <td>
+            <a href="{{ route('gotongroyong.edit', $got1->id_pokja1_bidang2) }}"
+              class="btn btn-sm btn-tambah">Review</a>
 
-          <form action="{{ route('gotongroyong.destroy', $got1->id_pokja1_bidang2)}}" method="POST"
-            class="d-inline">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-sm btn-danger"
-            onclick="return confirm('Apakah anda yakin ingin menghapus laporan?')">Hapus</button>
-          </form>
+            <form action="{{ route('gotongroyong.destroy', $got1->id_pokja1_bidang2)}}" method="POST"
+              class="d-inline delete-form">
+              @csrf
+              @method('DELETE')
+              <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(this)">Hapus</button>
+            </form>
 
-          </td>
-        </tr>
+            </td>
+          </tr>
       @empty
         <div class="alert alert-danger mt-4">
           Tidak ada data laporan gotong royong
@@ -258,8 +154,29 @@
     <script src="{{ asset('backend/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
     <script src="{{ asset('backend/assets/vendor/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('backend/assets/vendor/php-email-form/validate.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Template Main JS File -->
     <script src="{{ asset('backend/assets/js/main.js') }}"></script>
+
+    <script>
+      function confirmDelete(button) {
+        Swal.fire({
+          title: 'Yakin hapus data?',
+          text: "Data yang dihapus tidak bisa dikembalikan.",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#6c757d',
+          confirmButtonText: 'Ya, Hapus!',
+          cancelButtonText: 'Batal'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Cari form terdekat dan submit
+            button.closest('form').submit();
+          }
+        });
+      }
+    </script>
 
     {{-- @endsection --}}

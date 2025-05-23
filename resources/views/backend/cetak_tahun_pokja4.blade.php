@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Cetak Laporan Pertahun</title>
     <style>
         table {
-        width: 100%;
-        border-collapse: collapse;
-            }
-
-        th, td {
-        padding: 8px;
-        border: 1px solid black;
+            width: 100%;
+            border-collapse: collapse;
         }
+
+        th,
+        td {
+            padding: 8px;
+            border: 1px solid black;
+        }
+
         body {
             font-family: Arial, sans-serif;
         }
@@ -95,100 +98,99 @@
             grid-template-columns: 50% 50%;
             grid-template-rows: 50% 50%;
         }
-
     </style>
 </head>
+
 <body>
-<div class="container">
-    <div class="header">
-        <div class="logo-container">
-            <img class="logo" src="{{ asset('frontend/assets/img/favicon.png') }}" alt="Logo PKK">
-            <div>
-                <h1>Pemberdayaan Kesejahteraan Keluarga</h1>
-                <p>Kab. Nganjuk, Jawa Timur</p>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img class="logo" src="{{ asset('frontend/assets/img/favicon.png') }}" alt="Logo PKK">
+                <div>
+                    <h1>Pemberdayaan Kesejahteraan Keluarga</h1>
+                    <p>Kab. Nganjuk, Jawa Timur</p>
+                </div>
             </div>
-            
+            <h2>Laporan Pertahun</h2>
+            <h4>Tahun : {{ $created_at }}</h4>
         </div>
-        <h2>Laporan Pertahun</h2>
-        <h4>Tahun : {{ $tanggal }}</h4>
-    </div>
 
-    <div class="separator"></div>
-    <div class ="signature">
-        <p>Tanggal Cetak : {{ $formattedDate }}</p>
-    </div>
+        <div class="separator"></div>
+        <div class="signature">
+            <p>Tanggal Cetak : {{ $formattedDate }}</p>
+        </div>
 
-    <h3>Laporan Kesehatan</h3>
-    <table align="center">
-				<tr>
-                    <td align="center"><b>NO</b></td>
-                    <td  align="center"><b>Kecamatan</b></td>
-					<td align="center"><b>Posyandu</b></td>
-					<td align="center"><b>Posyandu <br>Iterasi</b></td>
-					<td align="center"><b>KLP</b></td>
-					<td align="center"><b>Anggota</b></td>
-					<td align="center"><b>Kartu <br>Gratis</b></td>
-					{{-- <td align="center"><b>Kecamatan</b></td> --}}
-				</tr>
-                <tbody>
-                  @php
+        <h3>Laporan Kesehatan</h3>
+        <table align="center">
+            <tr>
+                <td align="center"><b>NO</b></td>
+                <td align="center"><b>Kecamatan</b></td>
+                <td align="center"><b>Posyandu</b></td>
+                <td align="center"><b>Posyandu <br>Iterasi</b></td>
+                <td align="center"><b>KLP</b></td>
+                <td align="center"><b>Anggota</b></td>
+                <td align="center"><b>Kartu <br>Gratis</b></td>
+                {{-- <td align="center"><b>Kecamatan</b></td> --}}
+            </tr>
+            <tbody>
+                @php
                     $no = 1;
                   @endphp
-                  @foreach($kesehatan as $item)
-                <tr>
-                    <th scope="row"  align="center">{{ $no++ }}</th>
-                    <td  align="center">{{ $item->nama_kec}}</td>
-                    <td align="center">{{ $item->jumlah_posyandu}}</td>
-                    <td align="center">{{ $item->jumlah_posyandu_iterasi}}</td>
-                    <td align="center">{{ $item->jumlah_klp }}</td>
-                    <td align="center">{{ $item->jumlah_anggota }}</td>
-                    <td align="center">{{ $item->jumlah_kartu_gratis }}</td>
-                    {{-- <td align="center">{{ $item->jumlah_kartu_gratis }}</td> --}}
-                </tr>
+                @foreach($kesehatan as $item)
+                    <tr>
+                        <th scope="row" align="center">{{ $no++ }}</th>
+                        <td align="center">{{ $item->nama_kec}}</td>
+                        <td align="center">{{ $item->jumlah_posyandu}}</td>
+                        <td align="center">{{ $item->jumlah_posyandu_iterasi}}</td>
+                        <td align="center">{{ $item->jumlah_klp }}</td>
+                        <td align="center">{{ $item->jumlah_anggota }}</td>
+                        <td align="center">{{ $item->jumlah_kartu_gratis }}</td>
+                        {{-- <td align="center">{{ $item->jumlah_kartu_gratis }}</td> --}}
+                    </tr>
                 @endforeach
                 <tr>
-                    <td  colspan="2" align="center">Total</td>
+                    <td colspan="2" align="center">Total</td>
                     <td align="center">{{ $total }}</td>
                     <td align="center">{{ $total1 }}</td>
                     <td align="center">{{ $total2 }}</td>
                     <td align="center">{{ $total3 }}</td>
                     <td align="center">{{ $total4 }}</td>
                 </tr>
-    </table>
+        </table>
 
-    <h3>Laporan Kelestarian Lingkungan Hidup</h3>
-    <table align="center">
-				<tr>
-                    <td align="center"><b>NO</b></td>
-                    <td  align="center"><b>Kecamatan</b></td>
-                    <td align="center"><b>Jamban</b></td>
-					<td align="center"><b>Spal</b></td>
-					<td align="center"><b>TPS</b></td>
-					<td align="center"><b>MCK</b></td>
-					<td align="center"><b>PDAM</b></td>
-					<td align="center"><b>Sumur</b></td>
-                    <td align="center"><b>Dll</b></td>
-					<!-- <td align="center"><b>id_user</b></td> -->
-				</tr>
-                <tbody>
-                  @php
+        <h3>Laporan Kelestarian Lingkungan Hidup</h3>
+        <table align="center">
+            <tr>
+                <td align="center"><b>NO</b></td>
+                <td align="center"><b>Kecamatan</b></td>
+                <td align="center"><b>Jamban</b></td>
+                <td align="center"><b>Spal</b></td>
+                <td align="center"><b>TPS</b></td>
+                <td align="center"><b>MCK</b></td>
+                <td align="center"><b>PDAM</b></td>
+                <td align="center"><b>Sumur</b></td>
+                <td align="center"><b>Dll</b></td>
+                <!-- <td align="center"><b>id_user</b></td> -->
+            </tr>
+            <tbody>
+                @php
                     $no = 1;
                   @endphp
-                  @foreach($kelestarian as $item)
-                <tr>
-                    <th  align="center">{{ $no++ }}</th>
-                    <td  align="center">{{ $item->nama_kec}}</td>
-                    <td align="center">{{ $item->jamban }}</td>
-                    <td align="center">{{ $item->spal}}</td>
-                    <td align="center">{{ $item->tps}}</td>
-                    <td align="center">{{ $item->mck }}</td>
-                    <td align="center">{{ $item->pdam }}</td>
-                    <td align="center">{{ $item->sumur }}</td>
-                    <td align="center">{{ $item->dll }}</td>
-                </tr>
+                @foreach($kelestarian as $item)
+                    <tr>
+                        <th align="center">{{ $no++ }}</th>
+                        <td align="center">{{ $item->nama_kec}}</td>
+                        <td align="center">{{ $item->jamban }}</td>
+                        <td align="center">{{ $item->spal}}</td>
+                        <td align="center">{{ $item->tps}}</td>
+                        <td align="center">{{ $item->mck }}</td>
+                        <td align="center">{{ $item->pdam }}</td>
+                        <td align="center">{{ $item->sumur }}</td>
+                        <td align="center">{{ $item->dll }}</td>
+                    </tr>
                 @endforeach
                 <tr>
-                    <td  colspan="2" align="center">Total</td>
+                    <td colspan="2" align="center">Total</td>
                     <td align="center">{{ $total5 }}</td>
                     <td align="center">{{ $total6 }}</td>
                     <td align="center">{{ $total7 }}</td>
@@ -197,80 +199,81 @@
                     <td align="center">{{ $total10 }}</td>
                     <td align="center">{{ $total11 }}</td>
                 </tr>
-    </table>
+        </table>
 
-    <h3>Laporan Perencanaan Sehat</h3>
-    <table align="center">
-				<tr>
-                    <td align="center"><b>NO</b></td>
-                    <td  align="center"><b>Kecamatan</b></td>
-                    <td align="center"><b>Perempuan <br>Subur</b></td>
-					<td align="center"><b>Wanita <br>Subur</b></td>
-					<td align="center"><b>KB <br>Perempuan</b></td>
-					<td align="center"><b>KB <br>Wanita</b></td>
-					<td align="center"><b>KK <br>TBG</b></td>
-					<!-- <td align="center"><b>id_user</b></td> -->
-				</tr>
-                <tbody>
-                  @php
+        <h3>Laporan Perencanaan Sehat</h3>
+        <table align="center">
+            <tr>
+                <td align="center"><b>NO</b></td>
+                <td align="center"><b>Kecamatan</b></td>
+                <td align="center"><b>Perempuan <br>Subur</b></td>
+                <td align="center"><b>Wanita <br>Subur</b></td>
+                <td align="center"><b>KB <br>Perempuan</b></td>
+                <td align="center"><b>KB <br>Wanita</b></td>
+                <td align="center"><b>KK <br>TBG</b></td>
+                <!-- <td align="center"><b>id_user</b></td> -->
+            </tr>
+            <tbody>
+                @php
                     $no = 1;
                   @endphp
-                  @foreach($perencanaan as $item)
-                <tr>
-                    <th  align="center">{{ $no++ }}</th>
-                    <td  align="center">{{ $item->nama_kec}}</td>
-                    <td align="center">{{ $item->J_Psubur }}</td>
-                    <td align="center">{{ $item->J_Wsubur}}</td>
-                    <td align="center">{{ $item->Kb_p}}</td>
-                    <td align="center">{{ $item->Kb_w }}</td>
-                    <td align="center">{{ $item->Kk_tbg }}</td>
-                </tr>
+                @foreach($perencanaan as $item)
+                    <tr>
+                        <th align="center">{{ $no++ }}</th>
+                        <td align="center">{{ $item->nama_kec}}</td>
+                        <td align="center">{{ $item->J_Psubur }}</td>
+                        <td align="center">{{ $item->J_Wsubur}}</td>
+                        <td align="center">{{ $item->Kb_p}}</td>
+                        <td align="center">{{ $item->Kb_w }}</td>
+                        <td align="center">{{ $item->Kk_tbg }}</td>
+                    </tr>
                 @endforeach
                 <tr>
-                    <td  colspan="2" align="center">Total</td>
+                    <td colspan="2" align="center">Total</td>
                     <td align="center">{{ $total12 }}</td>
                     <td align="center">{{ $total13 }}</td>
                     <td align="center">{{ $total14 }}</td>
                     <td align="center">{{ $total15 }}</td>
                     <td align="center">{{ $total16 }}</td>
                 </tr>
-    </table>
+        </table>
 
-    <div class="container-grid">
-        <div style="text-align: left;">
-            <div style="text-align: center;">
-                @forelse($wakil as $wakill)
-                <a>Mengetahui</a></br>
-                <a>TIM PENGGERAK PKK KABUPATEN NGANJUK</a></br>
-                <a>{{ $wakill->jabatan }}</a></br><br><br><br>
-                <a>{{ $wakill->nama_terang }}</a>
-                @empty
-                tidak ada data
-                @endforelse
+        <div class="container-grid">
+            <div style="text-align: left;">
+                <div style="text-align: center;">
+                    @forelse($wakil as $wakill)
+                        <a>Mengetahui</a></br>
+                        <a>TIM PENGGERAK PKK KABUPATEN NGANJUK</a></br>
+                        <a>{{ $wakill->jabatan }}</a></br><br><br><br>
+                        <a>{{ $wakill->nama_terang }}</a>
+                    @empty
+                        tidak ada data
+                    @endforelse
+                </div>
+            </div>
+
+            <div style="text-align: right;">
+                <div style="text-align: center;">
+                    @forelse($ketua as $ketuaa)
+                                        <a>Nganjuk, <?php
+                        echo date('d F Y');
+                                              ?></a></br>
+                                        <a>{{ $ketuaa->pokja }}</a></br>
+                                        <a>{{ $ketuaa->jabatan }}</a></br><br><br><br>
+                                        <a>{{ $ketuaa->nama_terang }}</a>
+                    @empty
+                        tidak ada data
+                    @endforelse
+                </div>
             </div>
         </div>
 
-        <div style="text-align: right;">
-            <div style="text-align: center;">
-                @forelse($ketua as $ketuaa)
-                <a>Nganjuk, <?php
-                          echo date('d F Y');
-                          ?></a></br>
-                <a>{{ $ketuaa->pokja }}</a></br>
-                <a>{{ $ketuaa->jabatan }}</a></br><br><br><br>
-                <a>{{ $ketuaa->nama_terang }}</a>
-                @empty
-                tidak ada data
-                @endforelse
-            </div>
-         </div>
+        <script>
+            window.onload = function () {
+                window.print();
+            };
+        </script>
     </div>
-
-    <script>
-        window.onload = function() {
-            window.print();
-        };
-    </script>
-</div>
 </body>
+
 </html>

@@ -1,24 +1,5 @@
 <?php
 
-// namespace App\Http\Controllers\backend;
-
-// use Illuminate\Http\Request;;
-// use App\Models\BidangUmum;
-// use App\Http\Controllers\Controller;
-
-// class AccBidangUmumController extends Controller
-// {
-//     public function index(){
-
-//         $got1 = BidangUmum::where('status', 'proses')->count();
-//         $got2 = BidangUmum::where('status', 'disetujui')->count();
-
-//         return view('backend.accbidangumum', compact('got1', 'got2'));
-//     }    
-
-// }
-
-
 namespace App\Http\Controllers\backend;
 
 use Illuminate\Http\Request;
@@ -49,13 +30,13 @@ class AccBidangUmumController extends Controller
                     ->count();
 
                 $got2 = BidangUmum::whereIn('id_user', $desaIds)
-                    ->where('status', 'disetujui1')
+                    ->where('status', 'Disetujui1')
                     ->count();
             }
         } else {
             // Jika guard web, ambil semua data
-            $got1 = BidangUmum::where('status', 'dsetujui1')->count();
-            $got2 = BidangUmum::where('status', 'disetujui2')->count();
+            $got1 = BidangUmum::where('status', 'Disetujui1')->count();
+            $got2 = BidangUmum::where('status', 'Disetujui2')->count();
         }
 
         return view('backend.accbidangumum', compact('got1', 'got2'));

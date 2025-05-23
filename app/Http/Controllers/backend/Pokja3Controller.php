@@ -18,10 +18,10 @@ class Pokja3Controller extends Controller
         // Cek guard yang sedang login
         if (Auth::guard('web')->check()) {
             // Jika guard web (admin)
-            $modelPertama = Pangan::whereIn('status', ['disetujui1', 'disetujui2'])->count();
-            $modelKedua = Sandang::whereIn('status', ['disetujui1', 'disetujui2'])->count();
-            $modelKetiga = Perumahan::whereIn('status', ['disetujui1', 'disetujui2'])->count();
-            $modelKeempat = LaporanPokja3::whereIn('status', ['disetujui1', 'disetujui2'])->count();
+            $modelPertama = Pangan::whereIn('status', ['Disetujui1', 'Disetujui2'])->count();
+            $modelKedua = Sandang::whereIn('status', ['Disetujui1', 'Disetujui2'])->count();
+            $modelKetiga = Perumahan::whereIn('status', ['Disetujui1', 'Disetujui2'])->count();
+            $modelKeempat = LaporanPokja3::whereIn('status', ['Disetujui1', 'Disetujui2'])->count();
         } elseif (Auth::guard('pengguna')->check()) {
             // Jika guard pengguna (mobile)
             $user = Auth::guard('pengguna')->user();
@@ -33,19 +33,19 @@ class Pokja3Controller extends Controller
                     ->pluck('id');
 
                 $modelPertama = Pangan::whereIn('id_user', $desaIds)
-                    ->whereIn('status', ['disetujui1', 'proses'])
+                    ->whereIn('status', ['Disetujui1', 'proses'])
                     ->count();
 
                 $modelKedua = Sandang::whereIn('id_user', $desaIds)
-                    ->whereIn('status', ['disetujui1', 'proses'])
+                    ->whereIn('status', ['Disetujui1', 'proses'])
                     ->count();
 
                 $modelKetiga = Perumahan::whereIn('id_user', $desaIds)
-                    ->whereIn('status', ['disetujui1', 'proses'])
+                    ->whereIn('status', ['Disetujui1', 'proses'])
                     ->count();
 
                 $modelKeempat = LaporanPokja3::whereIn('id_user', $desaIds)
-                    ->whereIn('status', ['disetujui1', 'proses'])
+                    ->whereIn('status', ['Disetujui1', 'proses'])
                     ->count();
             }
         }

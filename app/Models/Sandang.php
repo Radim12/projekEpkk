@@ -13,4 +13,9 @@ class Sandang extends Model
     protected $guarded = [
         'id_pokja3_bidang2'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(Pengguna::class, 'id_user');
+    }
 }

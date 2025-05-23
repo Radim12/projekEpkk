@@ -17,8 +17,9 @@ class DecPanganController extends Controller
             $data2 = DB::table('laporan_pangan')
                 ->join('users_mobile', 'laporan_pangan.id_user', '=', 'users_mobile.id')
                 ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
-                ->select('laporan_pangan.*', 'subdistrict.name as nama_kec')
-                ->where('laporan_pangan.status', 'disetujui2')
+                ->join('village', 'users_mobile.id_village', '=', 'village.id')
+                ->select('laporan_pangan.*', 'subdistrict.name as nama_kec', 'village.name as nama_desa')
+                ->where('laporan_pangan.status', 'Disetujui2')
                 ->orderBy('id_pokja3_bidang1', 'desc')
                 ->get();
         } elseif (Auth::guard('pengguna')->check()) {
@@ -29,10 +30,15 @@ class DecPanganController extends Controller
                 $data2 = DB::table('laporan_pangan')
                     ->join('users_mobile', 'laporan_pangan.id_user', '=', 'users_mobile.id')
                     ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
-                    ->select('laporan_pangan.*', 'subdistrict.name as nama_kec')
-                    ->where('laporan_pangan.status', 'disetujui1')
+                    ->join('village', 'users_mobile.id_village', '=', 'village.id')
+                    ->select(
+                        'laporan_pangan.*',
+                        'subdistrict.name as nama_kec',
+                        'village.name as nama_desa'
+                    )
                     ->where('users_mobile.id_subdistrict', $user->id_subdistrict)
                     ->where('users_mobile.id_role', 1) // Hanya desa
+                    ->where('laporan_pangan.status', 'Disetujui1')
                     ->orderBy('id_pokja3_bidang1', 'desc')
                     ->get();
             }

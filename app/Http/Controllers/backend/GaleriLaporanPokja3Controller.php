@@ -5,12 +5,14 @@ namespace App\Http\Controllers\backend;
 use Illuminate\Http\Request;
 use App\Models\Galeri;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 
 class GaleriLaporanPokja3Controller extends Controller
 {
     public function index(){
-        $data = Galeri::where('bidang', 'kader pokja 3')->where('status', 'proses')
-        ->get();
+       $data = Galeri::where('bidang', 'Kader Pokja 3')
+                  ->whereIn('status', ['Upload', 'Proses'])
+                  ->get();
         return view('backend.galerilaporanpokja3', compact('data'));
     }
 
@@ -26,19 +28,24 @@ class GaleriLaporanPokja3Controller extends Controller
             $data->update([
                 'deskripsi' => $request->deskripsi,
                 'tanggal' => $request->tanggal,
-                'status' => 'upload',
+                'status' => 'Upload',
             ]);
         return redirect()->route('galerilaporanpokja3.index')->with(['success' => 'Berhasil Menambahkan Galeri']);
     }
     
-     public function destroy($gambar)
+    public function destroy($id)
     {
-        $deletedRows = Galeri::where('gambar', $gambar)->delete();
+        $data = Galeri::findOrFail($id);
 
-    if ($deletedRows > 0) {
+        // Ganti dengan path sesuai lokasi file kamu
+        $filePath = public_path('frontend2/gallery2/' . $data->gambar);
 
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+        }
+
+        $data->delete();
         return redirect()->route('galerilaporanpokja3.index')->with(['success' => 'Berhasil Menghapus Gambar dalam Galeri']);
-    }
     }
 
 }

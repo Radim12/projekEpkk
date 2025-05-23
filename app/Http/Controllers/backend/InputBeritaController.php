@@ -18,7 +18,6 @@ class InputBeritaController extends Controller
     }
 
     public function create() {}
-
     public function store(Request $request)
     {
         $request->validate([
@@ -83,21 +82,21 @@ class InputBeritaController extends Controller
                 'updated_at' => now(),
             ];
 
-            // Handle image update
+            // menangani update gambar
             if ($request->hasFile('image')) {
                 $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
                 $request->file('image')->move('storage/berita', $imageName);
                 $updateData['image'] = $imageName;
 
-                // Delete old image if exists
+                // Hapus gambar lama jika ada
                 if ($data->image && file_exists('storage/berita/' . $data->image)) {
                     unlink('storage/berita/' . $data->image);
                 }
             }
 
-            // Handle file update
+            // Menangani update file
             if ($request->hasFile('file')) {
-                // Buat direktori jika belum ada
+                // Buat direktori untuk file jika belum ada
                 if (!file_exists('storage/berita/file')) {
                     mkdir('storage/berita/file', 0777, true);
                 }
@@ -106,7 +105,7 @@ class InputBeritaController extends Controller
                 $request->file('file')->move('storage/berita/file', $fileName);
                 $updateData['file'] = $fileName;
 
-                // Delete old file if exists
+                // Hapus file lama jika ada
                 if ($data->file && file_exists('storage/berita/file/' . $data->file)) {
                     unlink('storage/berita/file/' . $data->file);
                 }
@@ -131,7 +130,6 @@ class InputBeritaController extends Controller
     public function destroy(string $id)
 
     {
-
         $data = Berita::find($id);
 
         $data->delete();

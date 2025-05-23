@@ -32,7 +32,7 @@ class LaporanPokja3Controller extends Controller
                 ->orderBy('laporan_kader_pokja3.id_kader_pokja3', 'desc')
                 ->get();
         } else {
-            // Jika guard web - tampilkan data yang sudah disetujui1
+            // Jika guard web - tampilkan data yang sudah Disetujui1
             $data = DB::table('laporan_kader_pokja3')
                 ->join('users_mobile', 'laporan_kader_pokja3.id_user', '=', 'users_mobile.id')
                 ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')

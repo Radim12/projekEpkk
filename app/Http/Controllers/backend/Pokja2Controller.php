@@ -15,8 +15,8 @@ class Pokja2Controller extends Controller
         // Cek guard yang aktif
         if (Auth::guard('web')->check()) {
             // Untuk guard web (admin)
-            $modelPertama = Pendidikan::whereIn('status', ['disetujui1', 'disetujui2'])->count();
-            $modelKedua = Pengembangan::whereIn('status', ['disetujui1', 'disetujui2'])->count();
+            $modelPertama = Pendidikan::whereIn('status', ['Disetujui1', 'Disetujui2'])->count();
+            $modelKedua = Pengembangan::whereIn('status', ['Disetujui1', 'Disetujui2'])->count();
         } elseif (Auth::guard('pengguna')->check()) {
             // Untuk guard pengguna
             $user = Auth::guard('pengguna')->user();
@@ -26,12 +26,12 @@ class Pokja2Controller extends Controller
                 $modelPertama = Pendidikan::whereHas('user', function ($query) use ($user) {
                     $query->where('id_role', 1)
                         ->where('id_subdistrict', $user->id_subdistrict);
-                })->whereIn('status', ['disetujui1', 'proses'])->count();
+                })->whereIn('status', ['Disetujui1', 'proses'])->count();
 
                 $modelKedua = Pengembangan::whereHas('user', function ($query) use ($user) {
                     $query->where('id_role', 1)
                         ->where('id_subdistrict', $user->id_subdistrict);
-                })->whereIn('status', ['disetujui1', 'proses'])->count();
+                })->whereIn('status', ['Disetujui1', 'proses'])->count();
             }
         } else {
             // Default jika tidak ada guard yang aktif

@@ -13,9 +13,9 @@ class AccPerumahanController extends Controller
     {
         // Cek guard yang login
         if (Auth::guard('web')->check()) {
-            // Jika admin web, tampilkan data dengan status disetujui1 dan disetujui2
-            $per1 = Perumahan::where('status', 'disetujui1')->count();
-            $per2 = Perumahan::where('status', 'disetujui2')->count();
+            // Jika admin web, tampilkan data dengan status Disetujui1 dan Disetujui2
+            $per1 = Perumahan::where('status', 'Disetujui1')->count();
+            $per2 = Perumahan::where('status', 'Disetujui2')->count();
         } elseif (Auth::guard('pengguna')->check()) {
             // Jika pengguna mobile
             $user = Auth::guard('pengguna')->user();
@@ -30,12 +30,8 @@ class AccPerumahanController extends Controller
                 $per2 = Perumahan::whereHas('user', function ($query) use ($user) {
                     $query->where('id_role', 1)
                         ->where('id_subdistrict', $user->id_subdistrict);
-                })->where('status', 'disetujui1')->count();
+                })->where('status', 'Disetujui1')->count();
             }
-        } else {
-            // Default jika tidak ada guard yang cocok
-            $per1 = 0;
-            $per2 = 0;
         }
 
         return view('backend.accperumahan', compact('per1', 'per2'));

@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use App\Models\User;
-use App\Models\Pengguna; // Tambah model Pengguna
+use App\Models\Pengguna;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +38,6 @@ class LoginRequest extends FormRequest
             'password.min' => 'Kata sandi minimal :min karakter',
         ];
     }
-
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
@@ -52,7 +51,7 @@ class LoginRequest extends FormRequest
             // Pengecekan role sebelum pengecekan password
             if ($pengguna->id_role == 1) {
                 throw ValidationException::withMessages([
-                    'email' => 'Silahkan masuk melalui aplikasi Android.',
+                    'email' => 'Anda adalah user desa, Silahkan login ke aplikasi.',
                 ]);
             }
 
@@ -95,13 +94,6 @@ class LoginRequest extends FormRequest
     // Cek password untuk Pengguna
     protected function checkPenggunaPassword($pengguna): void
     {
-        // Pastikan role 1 langsung gagal login
-        if ($pengguna->id_role == 1) {
-            throw ValidationException::withMessages([
-                'email' => 'Silahkan masuk melalui aplikasi Android.',
-            ]);
-        }
-
         // Pastikan hanya role 2 yang bisa login
         if ($pengguna->id_role != 2) {
             throw ValidationException::withMessages([
@@ -134,7 +126,6 @@ class LoginRequest extends FormRequest
         }
 
         event(new Lockout($this));
-
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
@@ -144,7 +135,6 @@ class LoginRequest extends FormRequest
             ]),
         ]);
     }
-
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());

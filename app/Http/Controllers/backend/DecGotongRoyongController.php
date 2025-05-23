@@ -18,8 +18,9 @@ class DecGotongRoyongController extends Controller
             $data2 = DB::table('laporan_gotong_royong')
                 ->join('users_mobile', 'laporan_gotong_royong.id_user', '=', 'users_mobile.id')
                 ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
-                ->select('laporan_gotong_royong.*', 'subdistrict.name as nama_kec')
-                ->where('laporan_gotong_royong.status', 'disetujui2')
+                ->join('village', 'users_mobile.id_village', '=', 'village.id')
+                ->select('laporan_gotong_royong.*', 'subdistrict.name as nama_kec', 'village.name as nama_desa')
+                ->where('laporan_gotong_royong.status', 'Disetujui2')
                 ->orderBy('id_pokja1_bidang2', 'desc')
                 ->get();
         } elseif (Auth::guard('pengguna')->check()) {
@@ -34,7 +35,7 @@ class DecGotongRoyongController extends Controller
                     ->join('village', 'desa.id_village', '=', 'village.id')
                     ->where('desa.id_role', 1) // Hanya desa
                     ->where('desa.id_subdistrict', $user->id_subdistrict) // Kecamatan yang sama
-                    ->where('laporan_gotong_royong.status', 'disetujui1')
+                    ->where('laporan_gotong_royong.status', 'Disetujui1')
                     ->select('laporan_gotong_royong.*', 'subdistrict.name as nama_kec', 'village.name as nama_desa')
                     ->orderBy('id_pokja1_bidang2', 'desc')
                     ->get();

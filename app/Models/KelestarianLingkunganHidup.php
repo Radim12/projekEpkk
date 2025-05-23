@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class KelestarianLingkunganHidup extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_kelpangan';
+    protected $primaryKey = 'id_pokja4_bidang2';
     protected $table = 'laporan_kelestarian_lingkungan_hidup';
     protected $guarded = [
-        'id_kelpangan'
+        'id_pokja4_bidang2'
     ];
 }

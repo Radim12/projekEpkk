@@ -14,9 +14,9 @@ class AccGotongRoyongController extends Controller
     {
         // Cek guard yang login
         if (Auth::guard('web')->check()) {
-            // Jika admin web, tampilkan data dengan status disetujui1 dan disetujui2
-            $got1 = GotongRoyong::whereIn('status', ['disetujui1'])->count();
-            $got2 = GotongRoyong::whereIn('status', ['disetujui2'])->count();
+            // Jika admin web, tampilkan data dengan status Disetujui1 dan Disetujui2
+            $got1 = GotongRoyong::whereIn('status', ['Disetujui1'])->count();
+            $got2 = GotongRoyong::whereIn('status', ['Disetujui2'])->count();
         } elseif (Auth::guard('pengguna')->check()) {
             $user = Auth::guard('pengguna')->user();
 
@@ -26,12 +26,12 @@ class AccGotongRoyongController extends Controller
                     ->where('id_role', 1)
                     ->pluck('id');
 
-                // Tampilkan data dengan status proses dan disetujui1 untuk desa tersebut
+                // Tampilkan data dengan status proses dan Disetujui1 untuk desa tersebut
                 $got1 = GotongRoyong::whereIn('id_user', $desaIds)
                     ->whereIn('status', ['proses'])
                     ->count();
                 $got2 = GotongRoyong::whereIn('id_user', $desaIds)
-                    ->whereIn('status', ['disetujui1'])
+                    ->whereIn('status', ['Disetujui1'])
                     ->count();
             } else {
                 // Untuk role lainnya (jika ada)

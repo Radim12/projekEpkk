@@ -32,7 +32,7 @@ class PerumahanController extends Controller
                 ->orderBy('laporan_perumahan.id_pokja3_bidang3', 'desc')
                 ->get();
         } else {
-            // Jika guard web - tampilkan data yang sudah disetujui1
+            // Jika guard web - tampilkan data yang sudah Disetujui1
             $data = DB::table('laporan_perumahan')
                 ->join('users_mobile', 'laporan_perumahan.id_user', '=', 'users_mobile.id')
                 ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
@@ -60,7 +60,6 @@ class PerumahanController extends Controller
     {
         $data = Perumahan::find($id_pokja3_bidang3);
 
-        // Tentukan status persetujuan berdasarkan guard
         $status = $request->status;
         if ($status == 'Disetujui') {
             if (Auth::guard('pengguna')->check()) {

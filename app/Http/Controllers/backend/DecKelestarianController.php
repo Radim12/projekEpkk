@@ -18,8 +18,9 @@ class DecKelestarianController extends Controller
             $data2 = DB::table('laporan_kelestarian_lingkungan_hidup')
                 ->join('users_mobile', 'laporan_kelestarian_lingkungan_hidup.id_user', '=', 'users_mobile.id')
                 ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
-                ->select('laporan_kelestarian_lingkungan_hidup.*', 'subdistrict.name as nama_kec')
-                ->where('laporan_kelestarian_lingkungan_hidup.status', 'disetujui2')
+                ->join('village', 'users_mobile.id_village', '=', 'village.id')
+                ->select('laporan_kelestarian_lingkungan_hidup.*', 'subdistrict.name as nama_kec', 'village.name as nama_desa')
+                ->where('laporan_kelestarian_lingkungan_hidup.status', 'Disetujui2')
                 ->orderBy('id_pokja4_bidang2', 'desc')
                 ->get();
         } elseif (Auth::guard('pengguna')->check()) {
@@ -27,14 +28,14 @@ class DecKelestarianController extends Controller
             $user = Auth::guard('pengguna')->user();
 
             if ($user->id_role == 2) {
-                // Ambil data desa (role 1) di kecamatan tersebut yang sudah disetujui1
+                // Ambil data desa (role 1) di kecamatan tersebut yang sudah Disetujui1
                 $data2 = DB::table('laporan_kelestarian_lingkungan_hidup')
                     ->join('users_mobile', 'laporan_kelestarian_lingkungan_hidup.id_user', '=', 'users_mobile.id')
                     ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
                     ->join('village', 'users_mobile.id_village', '=', 'village.id')
                     ->where('users_mobile.id_role', 1) // Hanya desa
                     ->where('users_mobile.id_subdistrict', $user->id_subdistrict) // Kecamatan yang sama
-                    ->where('laporan_kelestarian_lingkungan_hidup.status', 'disetujui1')
+                    ->where('laporan_kelestarian_lingkungan_hidup.status', 'Disetujui1')
                     ->select('laporan_kelestarian_lingkungan_hidup.*', 'subdistrict.name as nama_kec', 'village.name as nama_desa')
                     ->orderBy('id_pokja4_bidang2', 'desc')
                     ->get();

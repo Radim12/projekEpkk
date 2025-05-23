@@ -59,122 +59,8 @@
   </header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('dashboard') }}">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('ttd.index') }}">
-          <i class="fa-solid fa-signature"></i>
-          <span>Tanda Tangan</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('input_berita.index') }}">
-          <i class="fa-solid fa-newspaper"></i>
-          <span>Berita</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('input_pengumuman.index') }}">
-          <i class="fa-sharp fa-solid fa-bullhorn"></i>
-          <span>Pengumuman</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#galeri_nav" data-bs-toggle="collapse" href="#">
-          <i class="fa-solid fa-image"></i><span>Galeri</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="galeri_nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ route('galeribidangumum.index') }}">
-              <i class="bi bi-circle"></i><span>Bidang Umum</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('galeripokja1.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 1</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('galeripokja2.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 2</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('galeripokja3.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 3</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('galeripokja4.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 4</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="fa-solid fa-book"></i><span>Kelompok Kerja</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ route('accbidangumum.index') }}">
-              <i class="bi bi-circle"></i><span>Bidang Umum</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja1.index') }}" class="active">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 1</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja2.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 2</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja3.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 3</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('pokja4.index') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Kerja 4</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
-
-      <li class="nav-heading">Halaman</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('profile.index') }}">
-          <i class="fa-solid fa-user"></i>
-          <span>Profil</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('logout') }}"
-          onclick="return confirm('Apakah anda yakin ingin keluar?')">
-          <i class="fa-solid fa-right-from-bracket"></i>
-          <span>Keluar</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
+  @include('backend.includes.sidebar')
+  <!-- End Sidebar-->
 
   <main id="main" class="main">
 
@@ -187,7 +73,7 @@
           <div class="card">
             <div class="card-body mt-4">
               <form action="{{ route('laporanpokja1.update', $data->id_kader_pokja1) }}" method="POST"
-                enctype="multipart/form-data" onsubmit="return confirmSubmission()">
+                enctype="multipart/form-data" onsubmit="event.preventDefault(); confirmSubmission(event)">
 
                 @csrf
                 @method('PUT')
@@ -230,6 +116,10 @@
                       oninput="this.setCustomValidity('')" placeholder="Masukkan Judul" value="{{ $data->id_user }}" />
                   </div>
 
+                  <div id="statusAlert" class="alert alert-danger d-none" role="alert">
+                    Harap pilih status laporan.
+                  </div>
+
                   <div class="form-outline mb-4">
                     <label for="status" class="form-label">Status</label>
                     <select name="status" class="datepicker-trigger form-control hasDatepicker"
@@ -237,9 +127,9 @@
                       <option value="">--Pilih--</option>
                       <option value="Revisi">Revisi</option>
                       @if(Auth::guard('pengguna')->check())
-              <option value="Disetujui">Disetujui (Kecamatan)</option>
+              <option value="Disetujui1">Disetujui (Kecamatan)</option>
             @else
-              <option value="Disetujui">Disetujui (Admin)</option>
+              <option value="Disetujui2">Disetujui (Admin)</option>
             @endif
                     </select>
                   </div>
@@ -256,7 +146,7 @@
                     <label for="tanggal" class="form-label">Tanggal</label>
                     <input type="text" name="tanggal" id="tanggal" class="form-control" required readonly
                       oninvalid="this.setCustomValidity('Harap lengkapi judul')" oninput="this.setCustomValidity('')"
-                      placeholder="Masukkan Judul" value="{{ $data->tanggal }}" />
+                      placeholder="Masukkan Judul" value="{{ $data->created_at }}" />
                   </div>
 
                   <div class="text-end pt-1 pb-1 mt-4">
@@ -289,19 +179,49 @@
 
   <!-- Template Main JS File -->
   <script src="{{ asset('backend/assets/js/main.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-    function confirmSubmission() {
+    function confirmSubmission(e) {
       var status = document.querySelector('select[name="status"]').value;
+      var alertBox = document.getElementById('statusAlert');
+      alertBox.classList.add('d-none');
+
       if (status === "Revisi") {
-        return confirm('Apakah Anda yakin ingin mengubah status menjadi Revisi? Catatan perlu diisi.');
-      } else if (status === "Disetujui") {
-        return confirm('Apakah Anda yakin ingin menyetujui laporan ini?');
+        Swal.fire({
+          title: 'Konfirmasi Revisi',
+          text: 'Apakah Anda yakin ingin mengubah status menjadi Revisi? Catatan perlu diisi.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Ya, Ubah',
+          cancelButtonText: 'Batal',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            e.target.submit(); // ✅ submit form jika user klik "Ya, Ubah"
+          }
+        });
+        return false; // ⛔ cegah submit default
+      } else if (status === "Disetujui1" || status === "Disetujui2") {
+        Swal.fire({
+          title: 'Konfirmasi Persetujuan',
+          text: 'Apakah Anda yakin ingin menyetujui laporan ini?',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Ya, Setujui',
+          cancelButtonText: 'Batal',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            e.target.submit(); // ✅ submit form jika disetujui
+          }
+        });
+        return false;
       } else {
-        alert('Harap pilih status laporan.');
-        return false; // Prevent form submission if no status is selected
+        alertBox.classList.remove('d-none');
+        alertBox.innerText = 'Harap pilih status laporan.';
+        return false;
       }
     }
   </script>
+
 </body>
 
 {{--

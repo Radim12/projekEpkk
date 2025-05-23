@@ -49,7 +49,7 @@ class ProfileController extends Controller
                 'nomer_telepon' => [
                     'required',
                     'string',
-                    'regex:/^62\d{10,13}$/'
+                    'regex:/^08\d{10,13}$/'
                 ],
                 'alamat' => 'required|string|max:255',
             ], [

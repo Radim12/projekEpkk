@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class PerencanaanSehat extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_p_sehat';
+    protected $primaryKey = 'id_pokja4_bidang3';
     protected $table = 'laporan_perencanaan_sehat';
     protected $guarded = [
-        'id_p_sehat'
+        'id_pokja4_bidang3'
     ];
 }

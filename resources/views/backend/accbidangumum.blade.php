@@ -103,27 +103,21 @@
             <i class="bi bi-list toggle-sidebar-btn"></i>
 
         </div><!-- End Logo -->
-
-
-
         <nav class="header-nav ms-auto">
-
         </nav><!-- End Icons Navigation -->
-
-
-
-    </header><!-- End Header -->
-
+        </header><!-- End Header -->
 
     {{-- SIDEBAR --}}
     @include('backend.includes.sidebar')
 
-
-
-
-
     <main id="main" class="main">
-
+{{-- error data kosong --}}
+@if (session('error'))
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Perhatian!</strong> {{ session('error') }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 
 
         <div class="pagetitle">
@@ -207,13 +201,12 @@
 
                                 <form action="{{ route('bidangumum.filter') }}" method="GET">
 
-                                    <a>Tahunan : </a><select name="search2" class="input-laporan mt-2">
-
+                                    <a>Tahunan : </a>
+                                    <select name="search2" class="input-laporan mt-2">
                                         <option>-- Pilih --</option>
-
-                                        <option value="2023">2023</option>
-                                        <option value="2024">2024</option>
-
+                                        @for ($year = now()->year; $year >= 2021; $year--)
+                                            <option value="{{ $year }}">{{ $year }}</option>
+                                        @endfor
                                     </select>
 
 

@@ -14,12 +14,13 @@ class DecBidangUmumController extends Controller
     {
         // Cek guard terlebih dahulu
         if (Auth::guard('web')->check()) {
-            // Jika guard web (admin), tampilkan data dengan status 'disetujui2'
+            // Jika guard web (admin), tampilkan data dengan status 'Disetujui2'
             $data = DB::table('laporan_umum')
                 ->join('users_mobile', 'laporan_umum.id_user', '=', 'users_mobile.id')
                 ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
-                ->select('laporan_umum.*', 'subdistrict.name as nama_kec')
-                ->where('laporan_umum.status', 'disetujui2')
+                ->join('village', 'users_mobile.id_village', '=', 'village.id')
+                ->select('laporan_umum.*', 'subdistrict.name as nama_kec', 'village.name as nama_desa')
+                ->where('laporan_umum.status', 'Disetujui2')
                 ->orderBy('id_laporan_umum', 'desc')
                 ->get();
         } elseif (Auth::guard('pengguna')->check()) {
@@ -27,12 +28,13 @@ class DecBidangUmumController extends Controller
             $user = Auth::guard('pengguna')->user();
 
             if ($user->id_role == 2) {
-                // Jika role kecamatan (2), tampilkan data desa (role 1) di kecamatan tersebut dengan status 'disetujui1'
+                // Jika role kecamatan (2), tampilkan data desa (role 1) di kecamatan tersebut dengan status 'Disetujui1'
                 $data = DB::table('laporan_umum')
                     ->join('users_mobile', 'laporan_umum.id_user', '=', 'users_mobile.id')
                     ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
-                    ->select('laporan_umum.*', 'subdistrict.name as nama_kec')
-                    ->where('laporan_umum.status', 'disetujui1')
+                    ->join('village', 'users_mobile.id_village', '=', 'village.id')
+                    ->select('laporan_umum.*', 'subdistrict.name as nama_kec', 'village.name as nama_desa')
+                    ->where('laporan_umum.status', 'Disetujui1')
                     ->where('users_mobile.id_subdistrict', $user->id_subdistrict)
                     ->where('users_mobile.id_role', 1) // Desa
                     ->orderBy('id_laporan_umum', 'desc')

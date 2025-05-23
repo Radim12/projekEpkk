@@ -18,8 +18,9 @@ class PengembanganController extends Controller
             $data = DB::table('laporan_pengembangan_kehidupan')
                 ->join('users_mobile', 'laporan_pengembangan_kehidupan.id_user', '=', 'users_mobile.id')
                 ->join('subdistrict', 'users_mobile.id_subdistrict', '=', 'subdistrict.id')
-                ->select('laporan_pengembangan_kehidupan.*', 'subdistrict.name as nama_kec')
-                ->whereIn('laporan_pengembangan_kehidupan.status', ['disetujui1'])
+                ->join('village', 'users_mobile.id_village', '=', 'village.id')
+                ->select('laporan_pengembangan_kehidupan.*', 'village.name as nama_desa', 'subdistrict.name as nama_kec')
+                ->whereIn('laporan_pengembangan_kehidupan.status', ['Disetujui1'])
                 ->orderBy('id_pokja2_bidang2', 'desc')
                 ->get();
         } elseif (Auth::guard('pengguna')->check()) {

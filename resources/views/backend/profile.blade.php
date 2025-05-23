@@ -161,11 +161,11 @@
                   <div class="row mb-3">
                     <label for="nomer_telepon" class="col-md-4 col-lg-3 col-form-label">Nomor telepon</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="nomer_telepon" type="tel" pattern="^62\d{10,13}$"
+                      <input name="nomer_telepon" type="tel" pattern="^08\d{10,13}$"
                         class="form-control @error('nomer_telepon') is-invalid @enderror"
                         value="{{ $userType == 'pengguna' ? $user->phone_number : $user->nomer_telepon }}" required
                         oninvalid="this.setCustomValidity('Nomor telepon tidak sesuai')" oninput="this.setCustomValidity('')">
-                      <p class="mt-1">*Nomor telepon harus diawali dengan 62 dan diikuti 10-13 digit angka</p>
+                      <p class="mt-1">*Nomor telepon harus diawali dengan 08 dan diikuti 10-13 digit angka</p>
                       @error('nomer_telepon')
               <div class="invalid-feedback">
               {{ $message }}

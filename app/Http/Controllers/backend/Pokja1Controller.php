@@ -39,7 +39,7 @@ class Pokja1Controller extends Controller
                     ->count();
             }
         } else {
-            // Jika guard web - tampilkan data disetujui1 dan disetujui2
+            // Jika guard web - tampilkan data Disetujui1 dan Disetujui2
             $modelPertama = Penghayatan::whereIn('status', ['Disetujui1', 'Disetujui2'])->count();
             $modelKedua = GotongRoyong::whereIn('status', ['Disetujui1', 'Disetujui2'])->count();
             $modelKetiga = LaporanPokja1::whereIn('status', ['Disetujui1', 'Disetujui2'])->count();

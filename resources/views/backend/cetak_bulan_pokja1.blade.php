@@ -110,7 +110,7 @@
             
         </div>
         <h2>Laporan Perbulan</h2>
-        <h4>Bulan : {{ $tanggal }}</h4>
+        <h4>Bulan : {{$created_at}}</h4>
     </div>
 
     <div class="separator"></div>

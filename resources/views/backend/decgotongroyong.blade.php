@@ -80,7 +80,12 @@
           <thead>
             <tr>
               <th scope="col">No</th>
-              <th class="text-center" scope="col">Kecamatan</th>
+               @if (Auth::guard('web')->check())
+          <th class="text-center" scope="col">Kecamatan</th>
+          <th class="text-center" scope="col">Desa</th>
+        @elseif (Auth::guard('pengguna')->check())
+          <th class="text-center" scope="col">Desa</th>
+        @endif
               <th class="text-center" scope="col">Kerja Bakti</th>
               <th class="text-center" scope="col">Rukun Kematian</th>
               <th class="text-center" scope="col">Keagamaan</th>
@@ -94,30 +99,34 @@
           <tbody>
             @php
         $no = 1;
-      @endphp
+        @endphp
             @forelse ($data2 as $got1)
-        <tr>
-          <th scope="row">{{ $no++ }}</th>
+          <tr>
+            <th scope="row">{{ $no++ }}</th>
+            @if (Auth::guard('web')->check())
           <td class="text-center">{{ $got1->nama_kec }}</td>
-          <td class="text-center">{{ $got1->kerja_bakti }}</td>
-          <td class="text-center">{{ $got1->rukun_kematian }}</td>
-          <td class="text-center">{{ $got1->keagamaan }}</td>
-          <td class="text-center">{{ $got1->jimpitan }}</td>
-          <td class="text-center">{{ $got1->arisan }}</td>
-          <td>{{ $got1->status }}</td>
-          <td>{{ $got1->created_at }}</td>
-          <td>
+          <td class="text-center">{{ $got1->nama_desa }}</td>
+        @elseif (Auth::guard('pengguna')->check())
+          <td class="text-center">{{ $got1->nama_desa }}</td>
+        @endif
+            <td class="text-center">{{ $got1->kerja_bakti }}</td>
+            <td class="text-center">{{ $got1->rukun_kematian }}</td>
+            <td class="text-center">{{ $got1->keagamaan }}</td>
+            <td class="text-center">{{ $got1->jimpitan }}</td>
+            <td class="text-center">{{ $got1->arisan }}</td>
+            <td>{{ $got1->status }}</td>
+            <td>{{ $got1->created_at }}</td>
+            <td>
 
-          <form action="{{ route('decgotongroyong.destroy', $got1->id_pokja1_bidang2)}}" method="POST"
-            class="d-inline">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-sm btn-danger"
-            onclick="return confirm('Apakah anda yakin ingin menghapus laporan?')">Hapus</button>
-          </form>
+            <form action="{{ route('decgotongroyong.destroy', $got1->id_pokja1_bidang2)}}" method="POST"
+              class="d-inline delete-form">
+              @csrf
+              @method('DELETE')
+              <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(this)">Hapus</button>
+            </form>
 
-          </td>
-        </tr>
+            </td>
+          </tr>
       @empty
         <div class="alert alert-danger mt-4">
           Tidak ada data laporan gotong royong
@@ -171,6 +180,27 @@
     });
   </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function confirmDelete(button) {
+      Swal.fire({
+        title: 'Yakin hapus data?',
+        text: "Data yang dihapus tidak bisa dikembalikan.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Cari form terdekat dan submit
+          button.closest('form').submit();
+        }
+      });
+    }
+  </script>
 </body>
 
 {{--

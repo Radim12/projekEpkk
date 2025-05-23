@@ -31,7 +31,7 @@
       @forelse ($galerys as $tampil)
       <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
-        <div class="col-lg-3 col-md-3 portfolio-item filter-card">
+        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
           <img src="{{ asset('frontend2/gallery2/'.$tampil->gambar) }}" class="img-fluid" alt="">
           <div class="portfolio-info">
             <h4 class="text-break">{{ $tampil->deskripsi }}</h4>

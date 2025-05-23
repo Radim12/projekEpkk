@@ -5,12 +5,14 @@ namespace App\Http\Controllers\backend;
 use Illuminate\Http\Request;
 use App\Models\Galeri;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 
 class GaleriKelestarianController extends Controller
 {
     public function index(){
-        $data = Galeri::where('bidang', 'kelestarian lingkungan hidup')->where('status', 'proses')
-        ->get();
+        $data = Galeri::where('bidang', 'Kelestarian Lingkungan Hidup')
+                  ->whereIn('status', ['Upload', 'Proses'])
+                  ->get();
         return view('backend.galerikelestarian', compact('data'));
     }
 
@@ -26,19 +28,24 @@ class GaleriKelestarianController extends Controller
             $data->update([
                 'deskripsi' => $request->deskripsi,
                 'tanggal' => $request->tanggal,
-                'status' => 'upload',
+                'status' => 'Upload',
             ]);
         return redirect()->route('galerikelestarian.index')->with(['success' => 'Berhasil Menambahkan Galeri']);
     }
     
-     public function destroy($gambar)
+    public function destroy($id)
     {
-        $deletedRows = Galeri::where('gambar', $gambar)->delete();
+        $data = Galeri::findOrFail($id);
 
-    if ($deletedRows > 0) {
+        // Ganti dengan path sesuai lokasi file kamu
+        $filePath = public_path('frontend2/gallery2/' . $data->gambar);
 
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+        }
+
+        $data->delete();
         return redirect()->route('galerikelestarian.index')->with(['success' => 'Berhasil Menghapus Gambar dalam Galeri']);
-    }
     }
 
 }

@@ -69,12 +69,11 @@
                         oninput="this.setCustomValidity('')" placeholder="Masukkan Email atau Nomor WhatsApp"
                         value="{{ old('email')}}" />
 
+
                       @error('email')
-              <div class="invalid-feedback">
-              <!-- Pesan error diperbarui -->
-              {{ 'Email/nomor WhatsApp atau password salah' }}
-              </div>
+              <div class="invalid-feedback">{{ $message }}</div>
             @enderror
+
                     </div>
 
                     <div class="form-outline mb-5">
